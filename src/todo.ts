@@ -15,37 +15,42 @@ export class Todo {
 
   public dispatch(command: string): Result {
     const c = command.trim()
-    if (c.startsWith('help')) {
-      return new Result(PrintHelp, 'continue')
-    } else if (c.startsWith('list')) {
-      return new Result(new PrintList(this.list), 'continue')
-    } else if (c.startsWith('add')) {
-      this.add(c)
-      return new Result(Noop, 'continue')
-    } else if (c.startsWith('done')) {
-      this.done(c)
-      return new Result(Noop, 'continue')
-    } else if (c.startsWith('quit')) {
-      return new Result(Noop, 'exit')
-    } else {
-      return new Result(
-        new PrintError(
-          'I do not understand your command.  Enter help to display available commands.'
-        ),
-        'continue'
-      )
+    switch (this.firstWord(c)) {
+      case 'help':
+        return new Result(PrintHelp, 'continue')
+      case 'list':
+        return new Result(new PrintList(this.list), 'continue')
+      case 'add':
+        return new Result(this.add(c), 'continue')
+      case 'done':
+        return new Result(this.done(c), 'continue')
+      case 'quit':
+        return new Result(Noop, 'exit')
+      default:
+        return new Result(
+          new PrintError(
+            'I do not understand your command.  Enter help to display available commands.'
+          ),
+          'continue'
+        )
     }
   }
 
-  private add(line: string): void {
+  private add(line: string): Output {
     const i = line.indexOf(' ') + 1
     const description = line.slice(i)
     this.list.push(new Item(description, 'todo'))
+    return Noop
   }
 
-  private done(line: string): void {
+  private done(line: string): Output {
     const i = line.indexOf(' ') + 1
     const index = parseInt(line.slice(i), 10) - 1
     this.list[index].state = 'done'
+    return Noop
+  }
+
+  private firstWord(line: string): string {
+    return line.split(' ')[0]
   }
 }

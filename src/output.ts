@@ -7,15 +7,17 @@ class PrintHelpClass {
   public readonly kind: 'help' = 'help'
 
   public display(): void {
-    console.log(chalk.yellow(
-      `
+    console.log(
+      chalk.yellow(
+        `
       Available commands:
       help                              Displays this help
       list                              Display the todo list
       add <todo item description>       Adds the time to the todo list
       done <todo item number>           Marks the item as done
       quit                              Exit the program`
-    ))
+      )
+    )
   }
 }
 
