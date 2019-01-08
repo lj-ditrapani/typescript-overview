@@ -4,14 +4,12 @@ export class Result {
   constructor(readonly output: Output, readonly result: 'continue' | 'exit') {}
 }
 
-type State = 'todo' | 'done'
-
 export class Item {
-  constructor(public description: string, public state: State) {}
+  constructor(public description: string, public state: 'todo' | 'done') {}
 }
 
 export class Todo {
-  public readonly list: Item[] = []
+  private readonly list: Item[] = []
 
   public dispatch(command: string): Result {
     const c = command.trim()
@@ -37,17 +35,36 @@ export class Todo {
   }
 
   private add(line: string): Output {
-    const i = line.indexOf(' ') + 1
-    const description = line.slice(i)
-    this.list.push(new Item(description, 'todo'))
-    return Noop
+    const i = line.indexOf(' ')
+    if (i !== 3) {
+      return new PrintError(
+        'Add command must have space after add with ' +
+          'a description that follows.\nExample: add buy hot dogs.'
+      )
+    } else {
+      const description = line.slice(i + 1).trim()
+      this.list.push(new Item(description, 'todo'))
+      return Noop
+    }
   }
 
   private done(line: string): Output {
-    const i = line.indexOf(' ') + 1
-    const index = parseInt(line.slice(i), 10) - 1
-    this.list[index].state = 'done'
-    return Noop
+    const doneError = new PrintError(
+      'Done command must have space after done with ' +
+        'a valid index that follows.\nExample: done 3'
+    )
+    const i = line.indexOf(' ')
+    if (i !== 4) {
+      return doneError
+    } else {
+      const index = parseInt(line.slice(i + 1), 10) - 1
+      if (isNaN(index) || index < 0 || index >= this.list.length) {
+        return doneError
+      } else {
+        this.list[index].state = 'done'
+        return Noop
+      }
+    }
   }
 
   private firstWord(line: string): string {
