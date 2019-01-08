@@ -1,3 +1,4 @@
+import chalk from 'chalk'
 import { Item } from './todo'
 
 export type Output = PrintHelpClass | PrintError | PrintList | NoopClass
@@ -6,7 +7,7 @@ class PrintHelpClass {
   public readonly kind: 'help' = 'help'
 
   public display(): void {
-    console.log(
+    console.log(chalk.yellow(
       `
       Available commands:
       help                              Displays this help
@@ -14,7 +15,7 @@ class PrintHelpClass {
       add <todo item description>       Adds the time to the todo list
       done <todo item number>           Marks the item as done
       quit                              Exit the program`
-    )
+    ))
   }
 }
 
@@ -26,7 +27,7 @@ export class PrintError {
   constructor(public readonly err: string) {}
 
   public display(): void {
-    console.error(this.err)
+    console.error(chalk.red(this.err))
   }
 }
 
@@ -38,9 +39,9 @@ export class PrintList {
   public display(): void {
     this.list.forEach((item: Item, index: number) => {
       if (item.state === 'todo') {
-        console.log(`${index + 1} ${item.description}`)
+        console.log(`${index + 1} ${chalk.green(item.description)}`)
       } else {
-        console.log(`${index + 1} ${item.description} DONE!`)
+        console.log(`${index + 1} ${chalk.hex('#888888')(item.description)} (done)`)
       }
     })
   }
