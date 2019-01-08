@@ -1,40 +1,54 @@
 import assert from 'assert'
-import { instance, mock } from 'ts-mockito'
-import { Io, IoImpl } from '../src/io'
-import { Item, Todo } from '../src/todo'
+import { Noop } from '../src/output'
+import { Item, Result, Todo } from '../src/todo'
 
-describe('Todo', () => {
-  describe('add', () => {
+describe('Todo.dispatch', () => {
+  describe('add command', () => {
     it('it adds an item to the list', () => {
-      const ioMock = mock(IoImpl)
-      const io: Io = instance(ioMock)
-      const todo = new Todo(io)
+      const todo = new Todo()
       assert.deepEqual(todo.list, [])
-      todo.add('add wash car')
+      todo.dispatch('add wash car')
       assert.deepEqual(todo.list, [new Item('wash car', 'todo')])
-      todo.add('add eat lunch')
+      todo.dispatch('add eat lunch')
       assert.deepEqual(todo.list, [
         new Item('wash car', 'todo'),
         new Item('eat lunch', 'todo')
       ])
     })
-  })
 
-  describe('done', () => {
-    it('it marks an item as done', () => {
-      assert(false)
+    it('returns Result(Noop, continue)', () => {
+      const todo = new Todo()
+      const result = todo.dispatch('add wash car')
+      assert.deepStrictEqual(result, new Result(Noop, 'continue'))
     })
   })
 
-  describe('list', () => {
+  describe('done command', () => {
+    it('it marks an item as done', () => {
+      const todo = new Todo()
+      todo.dispatch('add wash car')
+      todo.dispatch('done 1')
+      todo.dispatch('list')
+    })
+  })
+
+  describe('list command', () => {
     it('display the list', () => {
       assert(false)
     })
   })
 
-  describe('help', () => {
+  describe('help command', () => {
     it('display the help text', () => {
       assert(false)
+    })
+  })
+
+  describe('quit command', () => {
+    it('returns Result(noop, exit)', () => {
+      const todo = new Todo()
+      const result = todo.dispatch('quit')
+      assert.deepStrictEqual(result, new Result(Noop, 'exit'))
     })
   })
 })

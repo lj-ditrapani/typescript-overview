@@ -1,7 +1,10 @@
-import { Io } from './io'
+import { Noop, Output, PrintError, PrintHelp, PrintList } from './output'
+
+export class Result {
+  constructor(readonly output: Output, readonly result: 'continue' | 'exit') {}
+}
 
 type State = 'todo' | 'done'
-type Result = 'continue' | 'exit'
 
 export class Item {
   constructor(public description: string, public state: State) {}
@@ -10,51 +13,39 @@ export class Item {
 export class Todo {
   public readonly list: Item[] = []
 
-  constructor(private io: Io) {}
+  public dispatch(command: string): Result {
+    const c = command.trim()
+    if (c.startsWith('help')) {
+      return new Result(PrintHelp, 'continue')
+    } else if (c.startsWith('list')) {
+      return new Result(PrintList(this.list), 'continue')
+    } else if (c.startsWith('add')) {
+      this.add(c)
+      return new Result(Noop, 'continue')
+    } else if (c.startsWith('done')) {
+      this.done(c)
+      return new Result(Noop, 'continue')
+    } else if (c.startsWith('quit')) {
+      return new Result(Noop, 'exit')
+    } else {
+      return new Result(
+        PrintError(
+          'I do not understand your command.  Enter help to display available commands.'
+        ),
+        'continue'
+      )
+    }
+  }
 
-  public add(line: string): void {
+  private add(line: string): void {
     const i = line.indexOf(' ') + 1
     const description = line.slice(i)
     this.list.push(new Item(description, 'todo'))
   }
 
-  public done(line: string): void {
+  private done(line: string): void {
     const i = line.indexOf(' ') + 1
     const index = parseInt(line.slice(i), 10) - 1
     this.list[index].state = 'done'
-  }
-
-  public listItems(): void {
-    for (const item of this.list) {
-      if (item.state === 'todo') {
-        this.io.printTodo(item.description)
-      } else {
-        this.io.printDone(item.description)
-      }
-    }
-  }
-
-  public dispatch(command: string): Result {
-    const c = command.trim()
-    if (c.startsWith('help')) {
-      this.io.printHelp()
-      return 'continue'
-    } else if (c.startsWith('list')) {
-      this.listItems()
-      return 'continue'
-    } else if (c.startsWith('add')) {
-      this.add(c)
-      return 'continue'
-    } else if (c.startsWith('done')) {
-      this.done(c)
-      return 'continue'
-    } else if (c.startsWith('quit')) {
-      return 'exit'
-    } else {
-      this.io.printError(
-        'I do not understand your command.  Enter help to display available commands.'
-      )
-      return 'continue'
-    }
   }
 }

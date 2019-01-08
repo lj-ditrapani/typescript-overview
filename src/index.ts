@@ -1,10 +1,9 @@
 import readline from 'readline'
-import { IoImpl } from './io'
 import { Todo } from './todo'
 
 console.log('Todo list\n')
 
-const todo = new Todo(new IoImpl())
+const todo = new Todo()
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -12,9 +11,10 @@ const rl = readline.createInterface({
 })
 
 const loop = () => {
-  rl.question('Enter a command. Enter help to list available commands: ', command => {
-    const result = todo.dispatch(command)
-    if (result === 'exit') {
+  rl.question('Enter a command. Enter help to list available commands: ', input => {
+    const result = todo.dispatch(input)
+    result.output.display()
+    if (result.result === 'exit') {
       console.log('bye!')
       rl.close()
     } else {
