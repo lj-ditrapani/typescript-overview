@@ -1,7 +1,7 @@
 {
-  "name": "todo-cli",
+  "name": "typescript-overview",
   "version": "0.0.1",
-  "description": "todo cli",
+  "description": "TypeScript Overivew",
   "main": "src/index.ts",
   "scripts": {
     "start": "node -r ts-node/register src/index.ts",
