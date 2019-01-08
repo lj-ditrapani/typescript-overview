@@ -18,7 +18,7 @@ export class Todo {
     if (c.startsWith('help')) {
       return new Result(PrintHelp, 'continue')
     } else if (c.startsWith('list')) {
-      return new Result(PrintList(this.list), 'continue')
+      return new Result(new PrintList(this.list), 'continue')
     } else if (c.startsWith('add')) {
       this.add(c)
       return new Result(Noop, 'continue')
@@ -29,7 +29,7 @@ export class Todo {
       return new Result(Noop, 'exit')
     } else {
       return new Result(
-        PrintError(
+        new PrintError(
           'I do not understand your command.  Enter help to display available commands.'
         ),
         'continue'

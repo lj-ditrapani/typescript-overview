@@ -24,6 +24,7 @@
       "ts-node/register"
     ],
     "exclude": [
+      "src/output.ts",
       "**/*.d.ts",
       "test/**"
     ]

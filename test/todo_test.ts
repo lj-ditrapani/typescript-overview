@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { Noop } from '../src/output'
+import { Noop, PrintError, PrintHelp } from '../src/output'
 import { Item, Result, Todo } from '../src/todo'
 
 describe('Todo.dispatch', () => {
@@ -24,23 +24,47 @@ describe('Todo.dispatch', () => {
   })
 
   describe('done command', () => {
-    it('it marks an item as done', () => {
+    it('it marks an item as done and returns Result(Noop, continue)', () => {
       const todo = new Todo()
       todo.dispatch('add wash car')
-      todo.dispatch('done 1')
-      todo.dispatch('list')
+      const doneResult = todo.dispatch('done 1')
+      assert.deepStrictEqual(doneResult, new Result(Noop, 'continue'))
+      const listResult = todo.dispatch('list')
+      assert.strictEqual(listResult.result, 'continue')
+      const printList = listResult.output
+      assert.strictEqual(printList.kind, 'list')
+      if (printList.kind === 'list') {
+        const list = printList.list
+        assert.deepStrictEqual(list, [new Item('wash car', 'done')])
+      }
     })
   })
 
   describe('list command', () => {
     it('display the list', () => {
-      assert(false)
+      const todo = new Todo()
+      todo.dispatch('add wash car')
+      todo.dispatch('add eat lunch')
+      todo.dispatch('done 2')
+      const result = todo.dispatch('list')
+      assert.strictEqual(result.result, 'continue')
+      const printList = result.output
+      assert.strictEqual(printList.kind, 'list')
+      if (printList.kind === 'list') {
+        const list = printList.list
+        assert.deepStrictEqual(list, [
+          new Item('wash car', 'todo'),
+          new Item('eat lunch', 'done')
+        ])
+      }
     })
   })
 
   describe('help command', () => {
     it('display the help text', () => {
-      assert(false)
+      const todo = new Todo()
+      const result = todo.dispatch('help')
+      assert.deepStrictEqual(result, new Result(PrintHelp, 'continue'))
     })
   })
 
@@ -49,6 +73,22 @@ describe('Todo.dispatch', () => {
       const todo = new Todo()
       const result = todo.dispatch('quit')
       assert.deepStrictEqual(result, new Result(Noop, 'exit'))
+    })
+  })
+
+  describe('unknown command', () => {
+    it('returns Result(error, continue)', () => {
+      const todo = new Todo()
+      const result = todo.dispatch('cure cancer')
+      assert.deepStrictEqual(
+        result,
+        new Result(
+          new PrintError(
+            'I do not understand your command.  Enter help to display available commands.'
+          ),
+          'continue'
+        )
+      )
     })
   })
 })

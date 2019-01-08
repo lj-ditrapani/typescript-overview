@@ -1,39 +1,57 @@
 import { Item } from './todo'
 
-type Kind = 'help' | 'error' | 'list' | 'noop'
+export type Output = PrintHelpClass | PrintError | PrintList | NoopClass
 
-export class Output {
-  constructor(public readonly kind: Kind, public readonly display: () => void) {}
-}
+class PrintHelpClass {
+  public readonly kind: 'help' = 'help'
 
-export const PrintHelp = new Output('help', () => {
-  console.log(
-    `
+  public display(): void {
+    console.log(
+      `
       Available commands:
       help                              Displays this help
       list                              Display the todo list
       add <todo item description>       Adds the time to the todo list
       done <todo item number>           Marks the item as done
       quit                              Exit the program`
-  )
-})
+    )
+  }
+}
 
-export const PrintError = (err: string) =>
-  new Output('error', () => {
-    console.error(err)
-  })
+export const PrintHelp = new PrintHelpClass()
 
-export const PrintList = (list: Item[]) =>
-  new Output('list', () => {
-    for (const item of list) {
+export class PrintError {
+  public readonly kind: 'error' = 'error'
+
+  constructor(public readonly err: string) {}
+
+  public display(): void {
+    console.error(this.err)
+  }
+}
+
+export class PrintList {
+  public readonly kind: 'list' = 'list'
+
+  constructor(public readonly list: Item[]) {}
+
+  public display(): void {
+    this.list.forEach((item: Item, index: number) => {
       if (item.state === 'todo') {
-        console.log(item.description)
+        console.log(`${index + 1} ${item.description}`)
       } else {
-        console.log(item.description)
+        console.log(`${index + 1} ${item.description} DONE!`)
       }
-    }
-  })
+    })
+  }
+}
 
-export const Noop = new Output('noop', () => {
-  return
-})
+class NoopClass {
+  public readonly kind: 'noop' = 'noop'
+
+  public display(): void {
+    return
+  }
+}
+
+export const Noop = new NoopClass()
