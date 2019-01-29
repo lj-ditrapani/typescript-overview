@@ -8,11 +8,12 @@
     "test": "nyc -e .ts mocha -r ts-node/register \"test/**/*_test.{js,ts}\"",
     "test1": "mocha -r ts-node/register",
     "fmt": "prettier --parser typescript --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "fmtjs": "prettier --write \"src/**/*.js\" \"test/**/*.js\" \"src/**/*.json\" \"test/**/*.json\" \"*.json\"",
     "tlint": "tslint --fix -c tslint.json 'src/**/*.ts' 'test/**/*.ts'",
-    "lint": "npm run tlint && npm run fmt",
+    "lint": "npm run tlint && npm run fmt && npm run fmtjs",
     "tsc": "tsc",
     "doc": "typedoc --out doc/ src",
-    "all": "npm run lint && npm test"
+    "all": "npm run lint && tsc && npm test"
   },
   "nyc": {
     "check-coverage": true,
@@ -34,6 +35,7 @@
     "todo"
   ],
   "author": "Jonathan Di Trapani",
+  "repository": "https://github.com/lj-ditrapani/typescript-overview",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^10.12.18",

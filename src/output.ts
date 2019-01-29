@@ -21,7 +21,7 @@ class PrintHelpClass {
   }
 }
 
-export const PrintHelp = new PrintHelpClass()
+export const printHelp = new PrintHelpClass()
 
 export class PrintError {
   public readonly kind: 'error' = 'error'
@@ -57,4 +57,4 @@ class NoopClass {
   }
 }
 
-export const Noop = new NoopClass()
+export const noop = new NoopClass()

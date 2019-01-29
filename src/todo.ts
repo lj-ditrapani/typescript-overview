@@ -1,4 +1,4 @@
-import { Noop, Output, PrintError, PrintHelp, PrintList } from './output'
+import { noop, Output, PrintError, printHelp, PrintList } from './output'
 
 export class Result {
   constructor(readonly output: Output, readonly result: 'continue' | 'exit') {}
@@ -15,7 +15,7 @@ export class Todo {
     const c = command.trim()
     switch (this.firstWord(c)) {
       case 'help':
-        return new Result(PrintHelp, 'continue')
+        return new Result(printHelp, 'continue')
       case 'list':
         return new Result(new PrintList(this.list), 'continue')
       case 'add':
@@ -23,7 +23,7 @@ export class Todo {
       case 'done':
         return new Result(this.done(c), 'continue')
       case 'quit':
-        return new Result(Noop, 'exit')
+        return new Result(noop, 'exit')
       default:
         return new Result(
           new PrintError(
@@ -44,7 +44,7 @@ export class Todo {
     } else {
       const description = line.slice(i + 1).trim()
       this.list.push(new Item(description, 'todo'))
-      return Noop
+      return noop
     }
   }
 
@@ -62,7 +62,7 @@ export class Todo {
         return doneError
       } else {
         this.list[index].state = 'done'
-        return Noop
+        return noop
       }
     }
   }

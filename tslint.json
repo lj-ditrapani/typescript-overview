@@ -6,7 +6,8 @@
     "max-classes-per-file": [true, 5, "exclude-class-expressions"],
     "no-console": [false, "log", "error"],
     "no-implicit-dependencies": [true, "dev"],
-    "no-var-requires": false
+    "no-var-requires": false,
+    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"]
   },
   "rulesDirectory": []
 }
