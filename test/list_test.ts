@@ -1,26 +1,29 @@
 import assert from 'assert'
-import { Cons, List, nil, NilClass } from '../src/list'
+import { Cons, List, nil } from '../src/list'
 
 const checkCons = (list: List<number>, n: number): List<number> => {
-  if (list instanceof Cons) {
-    assert.strictEqual(list.head, n)
-    return list.tail
-  } else if (list instanceof NilClass) {
-    throw new Error('Expected Cons, found nil')
-  } else {
-    const exhaustiveCheck: never = list
-    return exhaustiveCheck
+  switch (list.kind) {
+    case 'cons':
+      assert.strictEqual(list.head, n)
+      return list.tail
+    case 'nil':
+      throw new Error('Expected Cons, found nil')
+    default:
+      const exhaustiveCheck: never = list
+      return exhaustiveCheck
   }
 }
 
 const checkNil = (list: List<number>): void => {
-  if (list instanceof Cons) {
-    throw new Error('Expected nil, found Cons')
-  } else if (list instanceof NilClass) {
-    assert.strictEqual(list, nil)
-  } else {
-    const exhaustiveCheck: never = list
-    return exhaustiveCheck
+  switch (list.kind) {
+    case 'cons':
+      throw new Error('Expected nil, found Cons')
+    case 'nil':
+      assert.strictEqual(list, nil)
+      break
+    default:
+      const exhaustiveCheck: never = list
+      return exhaustiveCheck
   }
 }
 
