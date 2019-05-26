@@ -1,6 +1,10 @@
 TypeScript Overivew
 ===================
 
+Here's a couple of small code examples to teach Typescript basics.
+Start by reviewing <https://learnxinyminutes.com/docs/typescript/>.
+Then `npm install` and go through the 2 examples.
+
 
 List ADT example
 ----------------
@@ -89,3 +93,9 @@ Review package.json
     - npm run lint
     - npm run doc
     - npm run all
+
+
+Further reading
+---------------
+
+[Typescript Handbook](https://www.typescriptlang.org/docs/handbook/basic-types.html).
