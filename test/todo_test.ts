@@ -18,7 +18,7 @@ const resultIsError = (result: Result, err: string): void => {
 
 describe('Todo.dispatch', () => {
   describe('add command', () => {
-    it('it adds an item to the list', () => {
+    it('adds an item to the list', () => {
       const todo = new Todo()
       resultIsList(todo.dispatch('list'), [])
       todo.dispatch('add wash car')
@@ -134,7 +134,7 @@ describe('Todo.dispatch', () => {
   })
 
   describe('list command', () => {
-    it('display the list', () => {
+    it('displays the list', () => {
       const todo = new Todo()
       todo.dispatch('add wash car')
       todo.dispatch('add eat lunch')
@@ -147,7 +147,7 @@ describe('Todo.dispatch', () => {
   })
 
   describe('help command', () => {
-    it('display the help text', () => {
+    it('displays the help text', () => {
       const todo = new Todo()
       const result = todo.dispatch('help')
       assert.deepStrictEqual(result, new Result(printHelp, 'continue'))
