@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "node -r ts-node/register src/index.ts",
-    "test": "nyc -e .ts mocha -r ts-node/register \"test/**/*_test.{js,ts}\"",
+    "test": "nyc -e .ts mocha -r ts-node/register \"test/**/*_test.ts\"",
     "test1": "mocha -r ts-node/register",
     "fmt": "prettier --parser typescript --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "fmtjs": "prettier --write \"src/**/*.js\" \"test/**/*.js\" \"src/**/*.json\" \"test/**/*.json\" \"*.json\"",
@@ -38,18 +38,18 @@
   "repository": "https://github.com/lj-ditrapani/typescript-overview",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^12.0.2",
+    "@types/node": "^12.6.8",
     "chalk": "^2.4.2",
-    "ts-node": "^8.2.0",
-    "typescript": "^3.4.5"
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
   },
   "devDependencies": {
-    "@types/mocha": "^5.2.6",
-    "mocha": "^6.1.4",
+    "@types/mocha": "^5.2.7",
+    "mocha": "^6.2.0",
     "nyc": "^14.1.1",
-    "prettier": "^1.17.1",
+    "prettier": "^1.18.2",
     "source-map-support": "^0.5.12",
-    "tslint": "^5.16.0",
+    "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
     "typedoc": "^0.14.2"
   }
