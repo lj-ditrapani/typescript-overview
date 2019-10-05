@@ -8,9 +8,6 @@ const checkCons = (list: List<number>, n: number): List<number> => {
       return list.tail
     case 'nil':
       throw new Error('Expected Cons, found nil')
-    default:
-      const exhaustiveCheck: never = list
-      return exhaustiveCheck
   }
 }
 
