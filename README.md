@@ -41,7 +41,7 @@ Files
 
 - src
     - `index.ts`: main loop
-    - `output.ts`: output effects
+    - `result.ts`: Result effects
     - `todo.ts`: core logic
 - test
     - `todo\_test.ts`
@@ -49,25 +49,24 @@ Files
 Notes
 
 - run the app with `npm start`
-- Output type
+- Result type
     - Another ADT
     - kind & display()
     - A Class defines a type and a value (contructor function)
-    - PrintHelpClass & NoopClass constructors are private
+    - PrintHelpClass, NoopClass & ExitClass constructors are private
 - Todo
   - Todo has a list of items
   - Item has a description and a state
   - dispatch returns Result
-  - Result(Output, continue | exit)
   - All cases of switch return a Result
-  - add & done return an Output
+  - add & done return a Result
 - index.js
     - node\_module import vs local (relative) import
     - no stack issuse because recursion is in callback
     - main loop of
         - input prompt
         - todo.dispatch()
-        - output.display()
+        - result.display()
         - repeat or quit
 - tests
     - All tests just call dispatch and assert on result
@@ -77,7 +76,7 @@ Notes
     - Usually have to rely on dependency injection
       (think function parameters, not DI frameworks) when things are more complex
     - Very little logic in index.ts
-- Todo.dispatch returns Output effect
+- Todo.dispatch returns Result effect
     - does not perform IO, only describes
 
 
