@@ -1,8 +1,4 @@
-import { noop, Output, PrintError, printHelp, PrintList } from './output'
-
-export class Result {
-  constructor(readonly output: Output, readonly result: 'continue' | 'exit') {}
-}
+import { exit, noop, PrintError, printHelp, PrintList, Result } from './result'
 
 export class Item {
   constructor(public description: string, public state: 'todo' | 'done') {}
@@ -15,26 +11,23 @@ export class Todo {
     const c = command.trim()
     switch (this.firstWord(c)) {
       case 'help':
-        return new Result(printHelp, 'continue')
+        return printHelp
       case 'list':
-        return new Result(new PrintList(this.list), 'continue')
+        return new PrintList(this.list)
       case 'add':
-        return new Result(this.add(c), 'continue')
+        return this.add(c)
       case 'done':
-        return new Result(this.done(c), 'continue')
+        return this.done(c)
       case 'quit':
-        return new Result(noop, 'exit')
+        return exit
       default:
-        return new Result(
-          new PrintError(
-            'I do not understand your command.  Enter help to display available commands.'
-          ),
-          'continue'
+        return new PrintError(
+          'I do not understand your command.  Enter help to display available commands.'
         )
     }
   }
 
-  private add(line: string): Output {
+  private add(line: string): Result {
     const i = line.indexOf(' ')
     if (i !== 3) {
       return new PrintError(
@@ -48,7 +41,7 @@ export class Todo {
     }
   }
 
-  private done(line: string): Output {
+  private done(line: string): Result {
     const doneError = new PrintError(
       'Done command must have space after done with ' +
         'a valid index that follows.\nExample: done 3'

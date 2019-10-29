@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 import { Item } from './todo'
 
-export type Output = PrintHelpClass | PrintError | PrintList | NoopClass
+export type Result = PrintHelpClass | PrintError | PrintList | NoopClass | ExitClass
 
 class PrintHelpClass {
   public readonly kind: 'help' = 'help'
@@ -36,7 +36,7 @@ export class PrintError {
 export class PrintList {
   public readonly kind: 'list' = 'list'
 
-  constructor(public readonly list: Item[]) {}
+  constructor(public readonly list: ReadonlyArray<Item>) {}
 
   public display(): void {
     this.list.forEach((item: Item, index: number) => {
@@ -58,3 +58,13 @@ class NoopClass {
 }
 
 export const noop = new NoopClass()
+
+class ExitClass {
+  public readonly kind: 'exit' = 'exit'
+
+  public display(): void {
+    return
+  }
+}
+
+export const exit = new ExitClass()
