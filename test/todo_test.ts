@@ -24,7 +24,7 @@ describe('Todo.dispatch', () => {
       todo.dispatch('add eat lunch')
       resultIsList(todo.dispatch('list'), [
         new Item('wash car', 'todo'),
-        new Item('eat lunch', 'todo')
+        new Item('eat lunch', 'todo'),
       ])
     })
 
@@ -139,7 +139,7 @@ describe('Todo.dispatch', () => {
       todo.dispatch('done 2')
       resultIsList(todo.dispatch('list'), [
         new Item('wash car', 'todo'),
-        new Item('eat lunch', 'done')
+        new Item('eat lunch', 'done'),
       ])
     })
   })

@@ -8,11 +8,11 @@ const todo = new Todo()
 
 const rl = readline.createInterface({
   input: process.stdin,
-  output: process.stdout
+  output: process.stdout,
 })
 
 const loop = () => {
-  rl.question('Enter a command. Enter help to list available commands: ', input => {
+  rl.question('Enter a command. Enter help to list available commands: ', (input) => {
     const result = todo.dispatch(input)
     result.display()
     if (result === exit) {
