@@ -38,19 +38,19 @@
   "repository": "https://github.com/lj-ditrapani/typescript-overview",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^12.11.7",
+    "@types/node": "^12.20.7",
     "chalk": "^2.4.2",
-    "ts-node": "^8.4.1",
-    "typescript": "^3.6.4"
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.9"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",
-    "mocha": "^6.2.2",
+    "mocha": "^6.2.3",
     "nyc": "^14.1.1",
-    "prettier": "^1.18.2",
-    "source-map-support": "^0.5.15",
-    "tslint": "^5.20.0",
+    "prettier": "^1.19.1",
+    "source-map-support": "^0.5.19",
+    "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
-    "typedoc": "^0.15.0"
+    "typedoc": "^0.15.8"
   }
 }
