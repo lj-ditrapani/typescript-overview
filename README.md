@@ -86,12 +86,12 @@ Review package.json
 - dependencies
 - devDependencies
 - scripts!
-    - npm start
-    - npm test
-    - npm run test1
-    - npm run lint
-    - npm run doc
-    - npm run all
+    - `npm start`
+    - `npm test`
+    - `npm run test1 test/list_test.ts`
+    - `npm run lint`
+    - `npm run doc`
+    - `npm run all`
 
 
 Further reading
