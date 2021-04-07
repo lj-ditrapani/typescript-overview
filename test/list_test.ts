@@ -11,16 +11,13 @@ const checkCons = (list: List<number>, n: number): List<number> => {
   }
 }
 
-const checkNil = (list: List<number>): void => {
+const checkNil = (list: List<number>): null => {
   switch (list.kind) {
     case 'cons':
       throw new Error('Expected nil, found Cons')
     case 'nil':
       assert.strictEqual(list, nil)
-      break
-    default:
-      const exhaustiveCheck: never = list
-      return exhaustiveCheck
+      return null
   }
 }
 

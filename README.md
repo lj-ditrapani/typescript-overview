@@ -18,20 +18,23 @@ Notes on src
 
 - same runtime semantics as JavaScript
 - types are compile time only; do not exist at runtime
-- string literal types (nil, cons)
+- string literal types (kind = nil | cons)
 - Generic types: `List<A>`, `Cons<A>`
-- union types: A list is a Cons or a Nill
+- union types: A list is a Cons or a Nil
 - readonly, const
 - module exports
 
 Notes on tests
 
 - smart casts in switch
-  - cannot acces head or tail of list until type is proven to be cons
-- exhastiveness checking in switch
+  - cannot access head or tail of list until type is proven to be cons
+- exhaustiveness checking in switch
   - never type
   - thrown exception is of type never
 - return value of checkCons
+- This is a bad way to write tests.  Generally avoid logic in test
+  code.  This was done just to illustrate smart casts &
+  exhaustiveness checking.
 
 
 Todo app example
@@ -55,11 +58,11 @@ Notes
     - A Class defines a type and a value (contructor function)
     - PrintHelpClass, NoopClass & ExitClass constructors are private
 - Todo
-  - Todo has a list of items
-  - Item has a description and a state
-  - dispatch returns Result
-  - All cases of switch return a Result
-  - add & done return a Result
+    - Todo has a list of items
+    - Item has a description and a state
+    - dispatch returns Result
+    - All cases of switch return a Result
+    - add & done return a Result
 - index.js
     - node\_module import vs local (relative) import
     - no stack issuse because recursion is in callback
@@ -97,4 +100,4 @@ Review package.json
 Further reading
 ---------------
 
-[Typescript Handbook](https://www.typescriptlang.org/docs/handbook/basic-types.html).
+[Typescript Handbook](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html).
