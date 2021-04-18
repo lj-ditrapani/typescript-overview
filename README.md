@@ -12,7 +12,7 @@ List ADT example
 Files
 
 - `src/list.ts`
-- `test/list_test.ts`
+- `test/list.test.ts`
 
 Notes on src
 
@@ -47,7 +47,7 @@ Files
     - `result.ts`: Result effects
     - `todo.ts`: core logic
 - test
-    - `todo\_test.ts`
+    - `test/todo.test.ts`
 
 Notes
 
@@ -92,7 +92,7 @@ Review package.json
 - scripts!
     - `npm start`
     - `npm test`
-    - `npm run test1 test/list_test.ts`
+    - `npm test test/list.test.ts`
     - `npm run lint`
     - `npm run doc`
     - `npm run all`
