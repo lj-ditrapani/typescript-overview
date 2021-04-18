@@ -6,9 +6,7 @@
   "scripts": {
     "start": "node -r ts-node/register src/index.ts",
     "test": "jest --coverage",
-    "fmt": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"*.json\" \"*.js\"",
-    "eslint": "eslint --fix *.js *.json '*/**/*.ts'",
-    "lint": "npm run eslint",
+    "lint": "eslint --fix *.js *.json '*/**/*.ts'",
     "tsc": "tsc",
     "doc": "typedoc --out doc/ src",
     "all": "npm run lint && tsc && npm test"
