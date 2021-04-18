@@ -92,6 +92,7 @@ Review package.json
 - scripts!
     - `npm start`
     - `npm test`
+        - `firefox coverage/lcov-report/index.html`
     - `npm test test/list.test.ts`
     - `npm run lint`
     - `npm run doc`
