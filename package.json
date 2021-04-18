@@ -6,28 +6,12 @@
   "scripts": {
     "start": "node -r ts-node/register src/index.ts",
     "test": "jest --coverage",
-    "fmt": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"*.json\"",
+    "fmt": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"*.json\" \"*.js\"",
     "tlint": "tslint --fix -c tslint.json 'src/**/*.ts' 'test/**/*.ts'",
     "lint": "npm run tlint && npm run fmt",
     "tsc": "tsc",
     "doc": "typedoc --out doc/ src",
     "all": "npm run lint && tsc && npm test"
-  },
-  "nyc": {
-    "check-coverage": true,
-    "per-file": true,
-    "lines": 100,
-    "statements": 100,
-    "functions": 100,
-    "branches": 100,
-    "require": [
-      "ts-node/register"
-    ],
-    "exclude": [
-      "src/result.ts",
-      "**/*.d.ts",
-      "test/**"
-    ]
   },
   "keywords": [
     "overview",
