@@ -52,10 +52,11 @@ Files
 Notes
 
 - run the app with `npm start`
+- This is a `read, eval, print loop` (REPL) program
 - Result type
     - Another ADT
     - kind & display()
-    - A Class defines a type and a value (contructor function)
+    - A Class defines a type and a value (constructor function)
     - PrintHelpClass, NoopClass & ExitClass constructors are private
 - Todo
     - Todo has a list of items
