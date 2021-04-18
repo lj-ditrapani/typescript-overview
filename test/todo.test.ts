@@ -167,8 +167,8 @@ describe('Todo.dispatch', () => {
       assert.deepStrictEqual(
         result,
         new PrintError(
-          'I do not understand your command.  Enter help to display available commands.'
-        )
+          'I do not understand your command.  Enter help to display available commands.',
+        ),
       )
     })
   })

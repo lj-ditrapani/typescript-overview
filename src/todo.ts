@@ -22,7 +22,7 @@ export class Todo {
         return exit
       default:
         return new PrintError(
-          'I do not understand your command.  Enter help to display available commands.'
+          'I do not understand your command.  Enter help to display available commands.',
         )
     }
   }
@@ -32,7 +32,7 @@ export class Todo {
     if (i !== 3) {
       return new PrintError(
         'Add command must have space after add with ' +
-          'a description that follows.\nExample: add buy hot dogs.'
+          'a description that follows.\nExample: add buy hot dogs.',
       )
     } else {
       const description = line.slice(i + 1).trim()
@@ -44,7 +44,7 @@ export class Todo {
   private done(line: string): Result {
     const doneError = new PrintError(
       'Done command must have space after done with ' +
-        'a valid index that follows.\nExample: done 3'
+        'a valid index that follows.\nExample: done 3',
     )
     const i = line.indexOf(' ')
     if (i !== 4) {

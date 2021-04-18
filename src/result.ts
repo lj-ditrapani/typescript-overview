@@ -15,8 +15,8 @@ class PrintHelpClass {
       list                              Display the todo list
       add <todo item description>       Adds the item to the todo list
       done <todo item number>           Marks the item as done
-      quit                              Exit the program`
-      )
+      quit                              Exit the program`,
+      ),
     )
   }
 }
