@@ -1,5 +1,5 @@
 import readline from 'readline'
-import { exit } from './result'
+import { next } from './result'
 import { Todo } from './todo'
 
 console.log('Todo list\n')
@@ -11,16 +11,16 @@ const rl = readline.createInterface({
   output: process.stdout,
 })
 
+const stop = () => {
+  console.log('bye!')
+  rl.close()
+}
+
 const loop = () => {
   rl.question('Enter a command. Enter help to list available commands: ', (input) => {
     const result = todo.dispatch(input)
     result.display()
-    if (result === exit) {
-      console.log('bye!')
-      rl.close()
-    } else {
-      loop()
-    }
+    next(result, loop, stop)
   })
 }
 

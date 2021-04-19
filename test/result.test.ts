@@ -1,5 +1,4 @@
-// import assert from 'assert'
-import { noop, exit, printHelp, PrintError, PrintList } from '../src/result'
+import { next, noop, exit, printHelp, PrintError, PrintList } from '../src/result'
 import { Item } from '../src/todo'
 
 describe('printHelp.display()', () => {
@@ -55,5 +54,23 @@ describe('exit.display()', () => {
     exit.display()
     expect(log).not.toBeCalled()
     log.mockReset()
+  })
+})
+
+describe('next', () => {
+  describe('when the result is exit', () => {
+    it('executes stop()', () => {
+      const loop = jest.fn()
+      const stop = jest.fn()
+      next(exit, loop, stop)
+    })
+  })
+
+  describe('when the result is not exit', () => {
+    it('executes loop()', () => {
+      const loop = jest.fn()
+      const stop = jest.fn()
+      next(noop, loop, stop)
+    })
   })
 })

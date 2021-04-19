@@ -40,11 +40,7 @@ export class PrintList {
 
   public display(): void {
     this.list.forEach((item: Item, index: number) => {
-      if (item.state === 'todo') {
-        console.log(`${index + 1} ${chalk.green(item.description)}`)
-      } else {
-        console.log(`${index + 1} ${chalk.hex('#888888')(item.description)} (done)`)
-      }
+      console.log(item.toString(index, chalk.green, chalk.hex('#888888')))
     })
   }
 }
@@ -68,3 +64,11 @@ class ExitClass {
 }
 
 export const exit = new ExitClass()
+
+export const next = (result: Result, loop: () => void, stop: () => void): void => {
+  if (result === exit) {
+    stop()
+  } else {
+    loop()
+  }
+}

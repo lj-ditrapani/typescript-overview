@@ -2,6 +2,16 @@ import { exit, noop, PrintError, printHelp, PrintList, Result } from './result'
 
 export class Item {
   constructor(public description: string, public state: 'todo' | 'done') {}
+
+  toString(
+    index: number,
+    green: (input: string) => string,
+    grey: (input: string) => string,
+  ): string {
+    return this.state === 'todo'
+      ? `${index + 1} ${green(this.description)}`
+      : `${index + 1} ${grey(this.description)} (done)`
+  }
 }
 
 export class Todo {
