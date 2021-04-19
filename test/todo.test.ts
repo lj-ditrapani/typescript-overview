@@ -173,3 +173,31 @@ describe('Todo.dispatch', () => {
     })
   })
 })
+
+describe('Item.toString', () => {
+  describe('when the item is todo', () => {
+    it('returns the indexed line with green description text', () => {
+      const item = new Item('wash car', 'todo')
+      const green = jest.fn()
+      const grey = jest.fn()
+      green.mockReturnValueOnce('[green desc]')
+      const output = item.toString(0, green, grey)
+      expect(output).toBe('1 [green desc]')
+      expect(green).toHaveBeenCalledWith('wash car')
+      expect(grey).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('when the item is done', () => {
+    it('returns the indexed line with grey description text and (done) suffix', () => {
+      const item = new Item('bake bread', 'done')
+      const green = jest.fn()
+      const grey = jest.fn()
+      grey.mockReturnValueOnce('[grey desc]')
+      const output = item.toString(3, green, grey)
+      expect(output).toBe('4 [grey desc] (done)')
+      expect(green).not.toHaveBeenCalled()
+      expect(grey).toHaveBeenCalledWith('bake bread')
+    })
+  })
+})
