@@ -1,6 +1,6 @@
-import readline from 'readline'
-import { next } from './result'
 import { Todo } from './todo'
+import { next } from './result'
+import readline from 'readline'
 
 console.log('Todo list\n')
 

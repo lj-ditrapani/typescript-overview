@@ -1,4 +1,4 @@
-import { next, noop, exit, printHelp, PrintError, PrintList } from '../src/result'
+import { PrintError, PrintList, exit, next, noop, printHelp } from '../src/result'
 import { Item } from '../src/todo'
 
 describe('printHelp.display()', () => {

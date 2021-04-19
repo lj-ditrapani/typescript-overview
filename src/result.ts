@@ -1,5 +1,5 @@
-import chalk from 'chalk'
 import { Item } from './todo'
+import chalk from 'chalk'
 
 export type Result = PrintHelpClass | PrintError | PrintList | NoopClass | ExitClass
 

@@ -1,5 +1,5 @@
-import { exit, noop, PrintError, PrintList, printHelp, Result } from '../src/result'
 import { Item, Todo } from '../src/todo'
+import { PrintError, PrintList, Result, exit, noop, printHelp } from '../src/result'
 
 const resultIsList = (result: Result, items: Item[]): void => {
   expect(result).toStrictEqual(new PrintList(items))

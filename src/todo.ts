@@ -1,4 +1,4 @@
-import { exit, noop, PrintError, printHelp, PrintList, Result } from './result'
+import { PrintError, PrintList, Result, exit, noop, printHelp } from './result'
 
 export class Item {
   constructor(public description: string, public state: 'todo' | 'done') {}
