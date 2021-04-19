@@ -63,6 +63,8 @@ describe('next', () => {
       const loop = jest.fn()
       const stop = jest.fn()
       next(exit, loop, stop)
+      expect(stop).toHaveBeenCalled()
+      expect(loop).not.toHaveBeenCalled()
     })
   })
 
@@ -71,6 +73,8 @@ describe('next', () => {
       const loop = jest.fn()
       const stop = jest.fn()
       next(noop, loop, stop)
+      expect(stop).not.toHaveBeenCalled()
+      expect(loop).toHaveBeenCalled()
     })
   })
 })
