@@ -1,17 +1,12 @@
-import assert from 'assert'
-import { exit, noop, PrintError, printHelp, Result } from '../src/result'
+import { exit, noop, PrintError, PrintList, printHelp, Result } from '../src/result'
 import { Item, Todo } from '../src/todo'
 
 const resultIsList = (result: Result, items: Item[]): void => {
-  assert.strictEqual(result.kind, 'list')
-  if (result.kind === 'list') {
-    const list = result.list
-    assert.deepStrictEqual(list, items)
-  }
+  expect(result).toStrictEqual(new PrintList(items))
 }
 
 const resultIsError = (result: Result, err: string): void => {
-  assert.deepStrictEqual(result, new PrintError(err))
+  expect(result).toStrictEqual(new PrintError(err))
 }
 
 describe('Todo.dispatch', () => {
@@ -30,15 +25,13 @@ describe('Todo.dispatch', () => {
 
     it('returns noop', () => {
       const todo = new Todo()
-      const result = todo.dispatch('add wash car')
-      assert.deepStrictEqual(result, noop)
+      expect(todo.dispatch('add wash car')).toBe(noop)
     })
 
     describe('when there is extra whitespace around the description', () => {
       it('trims the description', () => {
         const todo = new Todo()
-        const result = todo.dispatch('add   wash car  ')
-        assert.deepStrictEqual(result, noop)
+        expect(todo.dispatch('add   wash car  ')).toBe(noop)
         resultIsList(todo.dispatch('list'), [new Item('wash car', 'todo')])
       })
     })
@@ -68,8 +61,7 @@ describe('Todo.dispatch', () => {
     it('it marks an item as done and returns noop', () => {
       const todo = new Todo()
       todo.dispatch('add wash car')
-      const doneResult = todo.dispatch('done 1')
-      assert.deepStrictEqual(doneResult, noop)
+      expect(todo.dispatch('done 1')).toBe(noop)
       resultIsList(todo.dispatch('list'), [new Item('wash car', 'done')])
     })
 
@@ -81,8 +73,7 @@ describe('Todo.dispatch', () => {
       it('still parses correctly', () => {
         const todo = new Todo()
         todo.dispatch('add wash car')
-        const doneResult = todo.dispatch('done   \t1\t  ')
-        assert.deepStrictEqual(doneResult, noop)
+        expect(todo.dispatch('done   \t1\t  ')).toBe(noop)
         resultIsList(todo.dispatch('list'), [new Item('wash car', 'done')])
       })
     })
@@ -148,7 +139,7 @@ describe('Todo.dispatch', () => {
     it('displays the help text', () => {
       const todo = new Todo()
       const result = todo.dispatch('help')
-      assert.deepStrictEqual(result, printHelp)
+      expect(result).toBe(printHelp)
     })
   })
 
@@ -156,7 +147,7 @@ describe('Todo.dispatch', () => {
     it('returns exit', () => {
       const todo = new Todo()
       const result = todo.dispatch('quit')
-      assert.deepStrictEqual(result, exit)
+      expect(result).toBe(exit)
     })
   })
 
@@ -164,8 +155,7 @@ describe('Todo.dispatch', () => {
     it('returns a PrintError', () => {
       const todo = new Todo()
       const result = todo.dispatch('cure cancer')
-      assert.deepStrictEqual(
-        result,
+      expect(result).toStrictEqual(
         new PrintError(
           'I do not understand your command.  Enter help to display available commands.',
         ),
