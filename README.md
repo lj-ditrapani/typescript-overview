@@ -97,6 +97,8 @@ Review package.json
     - `npm run lint`
     - `npm run doc`
     - `npm run all`
+- Update dependencies
+  `npm run ncu`
 
 
 Further reading
