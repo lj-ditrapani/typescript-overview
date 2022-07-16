@@ -7,9 +7,9 @@
   "scripts": {
     "start": "ts-node-esm src/index.ts",
     "test": "jest --coverage",
-    "fmtjson": "prettier --write '*.json'",
+    "fmt": "prettier --write '*.yaml' '*.json'",
     "eslint": "eslint --fix *.ts 'src/**/*.ts' 'test/**/*.ts'",
-    "lint": "npm run fmtjson && npm run eslint",
+    "lint": "npm run fmt && npm run eslint",
     "ncu": "ncu -u && rm -fr node_modules package-lock.json && npm install",
     "tsc": "tsc",
     "doc": "typedoc --out doc/ src",
