@@ -7,7 +7,7 @@
   "scripts": {
     "start": "ts-node-esm src/index.ts",
     "test": "jest --coverage",
-    "lint": "eslint --fix *.js *.json '*/**/*.ts'",
+    "lint": "eslint --fix *.json '*/**/*.ts'",
     "ncu": "ncu -u && rm -fr node_modules package-lock.json && npm install",
     "tsc": "tsc",
     "doc": "typedoc --out doc/ src",
