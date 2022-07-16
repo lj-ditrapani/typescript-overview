@@ -61,16 +61,17 @@ export class Todo {
       return doneError
     } else {
       const index = parseInt(line.slice(i + 1), 10) - 1
-      if (isNaN(index) || index < 0 || index >= this.list.length) {
+      const item = this.list[index]
+      if (item === undefined) {
         return doneError
       } else {
-        this.list[index].state = 'done'
+        item.state = 'done'
         return noop
       }
     }
   }
 
   private firstWord(line: string): string {
-    return line.split(' ')[0]
+    return line.replace(/ .*/, '')
   }
 }

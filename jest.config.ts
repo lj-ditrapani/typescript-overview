@@ -1,4 +1,6 @@
-module.exports = {
+import type {Config} from '@jest/types';
+
+const config: Config.InitialOptions = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   coverageThreshold: {
@@ -9,4 +11,6 @@ module.exports = {
       lines: 100,
     },
   },
-}
+};
+
+export default config;
