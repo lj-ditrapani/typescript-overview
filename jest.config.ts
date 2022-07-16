@@ -1,8 +1,9 @@
 import type {Config} from '@jest/types';
 
 const config: Config.InitialOptions = {
-  preset: 'ts-jest',
+  preset: 'ts-jest/presets/default-esm',
   testEnvironment: 'node',
+  extensionsToTreatAsEsm: [".ts"],
   coverageThreshold: {
     global: {
       statements: 100,
@@ -10,6 +11,14 @@ const config: Config.InitialOptions = {
       functions: 100,
       lines: 100,
     },
+  },
+  globals: {
+    'ts-jest': {
+      useESM: true,
+    },
+  },
+  moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.js$': '$1',
   },
 };
 

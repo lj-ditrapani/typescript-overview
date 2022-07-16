@@ -1,5 +1,5 @@
-import { Todo } from './todo'
-import { next } from './result'
+import { Todo } from './todo.js'
+import { next } from './result.js'
 import readline from 'readline'
 
 console.log('Todo list\n')
