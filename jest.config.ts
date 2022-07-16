@@ -1,4 +1,4 @@
-import type {Config} from '@jest/types';
+import type { Config } from '@jest/types'
 
 const config: Config.InitialOptions = {
   preset: 'ts-jest/presets/default-esm',
@@ -18,6 +18,6 @@ const config: Config.InitialOptions = {
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
   },
-};
+}
 
-export default config;
+export default config
