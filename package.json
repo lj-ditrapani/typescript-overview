@@ -4,7 +4,7 @@
   "description": "TypeScript Overivew",
   "main": "src/index.ts",
   "scripts": {
-    "start": "node -r ts-node/register src/index.ts",
+    "start": "ts-node src/index.ts",
     "test": "jest --coverage",
     "lint": "eslint --fix *.js *.json '*/**/*.ts'",
     "ncu": "ncu -u && rm -fr node_modules package-lock.json && npm install",
