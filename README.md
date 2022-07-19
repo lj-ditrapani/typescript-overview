@@ -89,6 +89,9 @@ Review package.json
 
 - dependencies
 - devDependencies
+- first time
+    - setup node 16.  You can use nvm to manage node versions.
+    - `npm install`
 - scripts!
     - `npm start`
     - `npm test`
