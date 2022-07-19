@@ -1,5 +1,24 @@
 import type { Item } from './todo.js'
-import chalk from 'chalk'
+
+type Color = 'red' | 'green' | 'yellow' | 'blue'
+
+const colored = (color: Color, str: string): string => {
+  const code = color2Code(color)
+  return `\u001B[${code}m${str}\u001B[0m`
+}
+
+const color2Code = (color: Color): number => {
+  switch (color) {
+    case 'red':
+      return 31
+    case 'green':
+      return 32
+    case 'yellow':
+      return 33
+    case 'blue':
+      return 34
+  }
+}
 
 export type Result = PrintHelpClass | PrintError | PrintList | NoopClass | ExitClass
 
@@ -8,7 +27,8 @@ class PrintHelpClass {
 
   public display(): void {
     console.log(
-      chalk.yellow(
+      colored(
+        'yellow',
         `
       Available commands:
       help                              Displays this help
@@ -29,7 +49,7 @@ export class PrintError {
   constructor(public readonly err: string) {}
 
   public display(): void {
-    console.error(chalk.red(this.err))
+    console.error(colored('red', this.err))
   }
 }
 
@@ -40,7 +60,13 @@ export class PrintList {
 
   public display(): void {
     this.list.forEach((item: Item, index: number) => {
-      console.log(item.toString(index, chalk.green, chalk.hex('#888888')))
+      console.log(
+        item.toString(
+          index,
+          (str) => colored('green', str),
+          (str) => colored('blue', str),
+        ),
+      )
     })
   }
 }
