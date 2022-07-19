@@ -1,5 +1,5 @@
 import { Item, Todo } from '../src/todo'
-import { PrintError, PrintList, Result, exit, noop, printHelp } from '../src/result'
+import { PrintError, PrintList, Result, exit, printHelp } from '../src/result'
 
 const resultIsList = (result: Result, items: Item[]): void => {
   expect(result).toStrictEqual(new PrintList(items))
@@ -23,16 +23,18 @@ describe('Todo.dispatch', () => {
       ])
     })
 
-    it('returns noop', () => {
+    it('returns PrintList', () => {
       const todo = new Todo()
-      expect(todo.dispatch('add wash car')).toBe(noop)
+      const list = [new Item('wash car', 'todo')]
+      resultIsList(todo.dispatch('add wash car'), list)
     })
 
     describe('when there is extra whitespace around the description', () => {
       it('trims the description', () => {
         const todo = new Todo()
-        expect(todo.dispatch('add   wash car  ')).toBe(noop)
-        resultIsList(todo.dispatch('list'), [new Item('wash car', 'todo')])
+        const list = [new Item('wash car', 'todo')]
+        resultIsList(todo.dispatch('add   wash car  '), list)
+        resultIsList(todo.dispatch('list'), list)
       })
     })
 
@@ -58,11 +60,12 @@ describe('Todo.dispatch', () => {
   })
 
   describe('done command', () => {
-    it('it marks an item as done and returns noop', () => {
+    it('it marks an item as done and returns a PrintList', () => {
       const todo = new Todo()
       todo.dispatch('add wash car')
-      expect(todo.dispatch('done 1')).toBe(noop)
-      resultIsList(todo.dispatch('list'), [new Item('wash car', 'done')])
+      const list = [new Item('wash car', 'done')]
+      resultIsList(todo.dispatch('done 1'), list)
+      resultIsList(todo.dispatch('list'), list)
     })
 
     const errorMsg =
@@ -73,8 +76,9 @@ describe('Todo.dispatch', () => {
       it('still parses correctly', () => {
         const todo = new Todo()
         todo.dispatch('add wash car')
-        expect(todo.dispatch('done   \t1\t  ')).toBe(noop)
-        resultIsList(todo.dispatch('list'), [new Item('wash car', 'done')])
+        const list = [new Item('wash car', 'done')]
+        resultIsList(todo.dispatch('done   \t1\t  '), list)
+        resultIsList(todo.dispatch('list'), list)
       })
     })
 

@@ -1,4 +1,4 @@
-import { PrintError, PrintList, Result, exit, noop, printHelp } from './result.js'
+import { PrintError, PrintList, Result, exit, printHelp } from './result.js'
 
 export class Item {
   constructor(public description: string, public state: 'todo' | 'done') {}
@@ -47,7 +47,7 @@ export class Todo {
     } else {
       const description = line.slice(i + 1).trim()
       this.list.push(new Item(description, 'todo'))
-      return noop
+      return new PrintList(this.list)
     }
   }
 
@@ -66,7 +66,7 @@ export class Todo {
         return doneError
       } else {
         item.state = 'done'
-        return noop
+        return new PrintList(this.list)
       }
     }
   }

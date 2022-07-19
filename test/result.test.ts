@@ -1,4 +1,4 @@
-import { PrintError, PrintList, exit, next, noop, printHelp } from '../src/result'
+import { PrintError, PrintList, exit, next, printHelp } from '../src/result'
 import { Item } from '../src/todo'
 
 describe('printHelp.display()', () => {
@@ -35,17 +35,6 @@ describe('PrintList.display()', () => {
   })
 })
 
-describe('noop.display()', () => {
-  it('displays nothing', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation(() => {
-      /* do nothing */
-    })
-    noop.display()
-    expect(log).not.toBeCalled()
-    log.mockReset()
-  })
-})
-
 describe('exit.display()', () => {
   it('displays nothing', () => {
     const log = jest.spyOn(console, 'log').mockImplementation(() => {
@@ -72,7 +61,7 @@ describe('next', () => {
     it('executes loop()', () => {
       const loop = jest.fn()
       const stop = jest.fn()
-      next(noop, loop, stop)
+      next(printHelp, loop, stop)
       expect(stop).not.toHaveBeenCalled()
       expect(loop).toHaveBeenCalled()
     })

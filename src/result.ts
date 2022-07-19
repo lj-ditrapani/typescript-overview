@@ -20,7 +20,7 @@ const color2Code = (color: Color): number => {
   }
 }
 
-export type Result = PrintHelpClass | PrintError | PrintList | NoopClass | ExitClass
+export type Result = PrintHelpClass | PrintError | PrintList | ExitClass
 
 class PrintHelpClass {
   public readonly kind: 'help' = 'help'
@@ -70,16 +70,6 @@ export class PrintList {
     })
   }
 }
-
-class NoopClass {
-  public readonly kind: 'noop' = 'noop'
-
-  public display(): void {
-    return
-  }
-}
-
-export const noop = new NoopClass()
 
 class ExitClass {
   public readonly kind: 'exit' = 'exit'
