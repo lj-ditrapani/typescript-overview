@@ -5,6 +5,14 @@ class NilClass {
 
   readonly reduce = <B>(zero: B, f: (acc: B, item: never) => B): B =>
     reduce(this, zero, f)
+
+  readonly reverse = (): List<never> => this
+
+  readonly map = <B>(unused: (item: never) => B): List<B> => this
+
+  readonly size = (): number => 0
+
+  readonly toString = (): string => 'List( )'
 }
 
 export const nil = new NilClass()
@@ -17,6 +25,16 @@ export class Cons<A> {
   readonly isEmpty = (): boolean => false
 
   readonly reduce = <B>(zero: B, f: (acc: B, item: A) => B): B => reduce(this, zero, f)
+
+  readonly reverse = (): List<A> =>
+    this.reduce<List<A>>(nil, (acc, item) => new Cons(item, acc))
+
+  readonly map = <B>(f: (item: A) => B): List<B> =>
+    this.reverse().reduce<List<B>>(nil, (acc, item) => new Cons(f(item), acc))
+
+  readonly size = (): number => this.reduce(0, (acc, unused) => acc + 1)
+
+  readonly toString = (): string => this.reduce('List( ', (acc, item) => `${acc}${item} `)
 }
 
 const reduce = <A, B>(list: List<A>, zero: B, f: (acc: B, item: A) => B): B => {
