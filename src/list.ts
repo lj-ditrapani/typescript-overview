@@ -8,7 +8,7 @@ class NilClass {
 
   readonly reverse = (): List<never> => this
 
-  readonly map = <B>(unused: (item: never) => B): List<B> => this
+  readonly map = <B>(_unused: (item: never) => B): List<B> => this
 
   readonly size = (): number => 0
 
@@ -32,7 +32,7 @@ export class Cons<A> {
   readonly map = <B>(f: (item: A) => B): List<B> =>
     this.reverse().reduce<List<B>>(nil, (acc, item) => new Cons(f(item), acc))
 
-  readonly size = (): number => this.reduce(0, (acc, unused) => acc + 1)
+  readonly size = (): number => this.reduce(0, (acc, _unused) => acc + 1)
 
   readonly toString = (): string => this.reduce('List( ', (acc, item) => `${acc}${item} `)
 }
