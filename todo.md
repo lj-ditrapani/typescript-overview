@@ -1,0 +1,2 @@
+- Rewrite Commands with interface and singleton objects so you don't have the class + instance declarations.
+- do we really need the error commands or can we dispatch inline?
