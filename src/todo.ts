@@ -1,14 +1,16 @@
-import { ColoredString, Line, Output } from './output.js'
 import {
   AddCommand,
   Command,
   DoneCommand,
-  Result,
   helpCommand,
   listCommand,
+  missingArgCommand,
   quitCommand,
+  unexpectedArgCommand,
   unknownCommand,
 } from './command.js'
+import { ColoredString, Line, Output } from './output.js'
+import type { Result } from './result.js'
 
 export class Item {
   constructor(public description: string, public state: 'todo' | 'done') {}
@@ -40,6 +42,9 @@ const parse = (input: string): Command => {
         return listCommand
       case 'quit':
         return quitCommand
+      case 'add':
+      case 'done':
+        return missingArgCommand(first)
       default:
         return unknownCommand
     }
@@ -49,6 +54,10 @@ const parse = (input: string): Command => {
         return new AddCommand(second)
       case 'done':
         return new DoneCommand(second)
+      case 'help':
+      case 'list':
+      case 'quit':
+        return unexpectedArgCommand(first)
       default:
         return unknownCommand
     }

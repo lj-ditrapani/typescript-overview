@@ -1,30 +1,6 @@
 import { ColoredString, Output } from './output.js'
+import { Continue, Result, exit } from './result.js'
 import { Item, toOutput } from './todo.js'
-
-class Exit {
-  kind: 'exit' = 'exit'
-}
-
-export class Continue {
-  kind: 'continue' = 'continue'
-  constructor(public readonly ouptput: Output, public readonly items: Item[]) {}
-}
-
-export const exit = new Exit()
-
-export type Result = Exit | Continue
-
-export const next = (
-  result: Result,
-  go: (c: Continue) => void,
-  stop: () => void,
-): void => {
-  if (result.kind === 'continue') {
-    go(result)
-  } else {
-    stop()
-  }
-}
 
 const error = (text: string): Output => new ColoredString('red', text).asOutput()
 
@@ -104,22 +80,9 @@ export class ErrorCommand {
 export const unexpectedArgCommand: (cn: string) => Command = (commandName: string) =>
   new ErrorCommand(`${commandName} command does not take any arguments`)
 
-export class MissingArgCommand {
-  constructor(private readonly commandName: string) {}
+export const missingArgCommand: (cn: string) => Command = (commandName: string) =>
+  new ErrorCommand(`${commandName} command requires an argument`)
 
-  process(items: Item[]): Result {
-    const output = error(`${this.commandName} command requires an argument`)
-    return new Continue(output, items)
-  }
-}
-
-class UnknownCommand {
-  private readonly output = error(
-    'I do not understand your command.  Enter help to display available commands.',
-  )
-  process(items: Item[]): Result {
-    return new Continue(this.output, items)
-  }
-}
-
-export const unknownCommand = new UnknownCommand()
+export const unknownCommand: Command = new ErrorCommand(
+  'I do not understand your command.  Enter help to display available commands.',
+)

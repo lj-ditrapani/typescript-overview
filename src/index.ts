@@ -1,4 +1,4 @@
-import { Continue, next } from './command.js'
+import { Continue, next } from './result.js'
 import { Item, todo } from './todo.js'
 import { display } from './output.js'
 import readline from 'readline'
