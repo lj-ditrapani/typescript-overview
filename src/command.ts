@@ -46,3 +46,65 @@ class ListCommand {
 }
 
 export const listCommand = new ListCommand()
+
+export class AddCommand {
+  constructor(private readonly arg: string) {}
+  process(items: Item[]): Result {
+    items.push(new Item(this.arg, 'todo'))
+    return new Continue(toOutput(items), items)
+  }
+}
+
+export class DoneCommand {
+  constructor(private readonly arg: string) {}
+  process(items: Item[]): Result {
+    const index = parseInt(this.arg, 10)
+    const item = items[index]
+    if (item === undefined) {
+      const output = error('Done command must have a valid item index')
+      return new Continue(output, items)
+    } else {
+      item.state = 'done'
+      return new Continue(toOutput(items), items)
+    }
+  }
+}
+
+class QuitCommand {
+  process(_items: Item[]): Result {
+    return exit
+  }
+}
+
+export const quitCommand = QuitCommand
+
+export class UnexpectedArgCommand {
+  constructor(private readonly commandName: string) {}
+
+  process(items: Item[]): Result {
+    const output = error(`${this.commandName} command does not take any arguments`)
+    return new Continue(output, items)
+  }
+}
+
+export class MissingArgCommand {
+  constructor(private readonly commandName: string) {}
+
+  process(items: Item[]): Result {
+    const output = error(`${this.commandName} command requires an argument`)
+    return new Continue(output, items)
+  }
+}
+
+class UnknownCommand {
+  private readonly output = error(
+    'I do not understand your command.  Enter help to display available commands.',
+  )
+  process(items: Item[]): Result {
+    return new Continue(this.output, items)
+  }
+}
+
+export const unknownCommand = new UnknownCommand()
+
+const error = (text: string): Output => new ColoredString('red', text).asOutput()
