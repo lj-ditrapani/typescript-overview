@@ -14,6 +14,20 @@ export const exit = new Exit()
 
 export type Result = Exit | Continue
 
+export const next = (
+  result: Result,
+  go: (c: Continue) => void,
+  stop: () => void,
+): void => {
+  if (result.kind === 'continue') {
+    go(result)
+  } else {
+    stop()
+  }
+}
+
+const error = (text: string): Output => new ColoredString('red', text).asOutput()
+
 class HelpCommand {
   public readonly output: Output = new ColoredString(
     'yellow',
@@ -59,7 +73,7 @@ export class DoneCommand {
   constructor(private readonly arg: string) {}
   process(items: Item[]): Result {
     const index = parseInt(this.arg, 10)
-    const item = items[index]
+    const item = items[index - 1]
     if (item === undefined) {
       const output = error('Done command must have a valid item index')
       return new Continue(output, items)
@@ -76,7 +90,7 @@ class QuitCommand {
   }
 }
 
-export const quitCommand = QuitCommand
+export const quitCommand = new QuitCommand()
 
 export class UnexpectedArgCommand {
   constructor(private readonly commandName: string) {}
@@ -107,4 +121,12 @@ class UnknownCommand {
 
 export const unknownCommand = new UnknownCommand()
 
-const error = (text: string): Output => new ColoredString('red', text).asOutput()
+export type Command =
+  | HelpCommand
+  | ListCommand
+  | AddCommand
+  | DoneCommand
+  | QuitCommand
+  | UnexpectedArgCommand
+  | MissingArgCommand
+  | UnknownCommand
