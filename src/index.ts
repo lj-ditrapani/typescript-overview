@@ -1,7 +1,8 @@
 import { Continue, next } from './result.js'
-import { Item, todo } from './todo.js'
+import type { Item } from './item.js'
 import { display } from './output.js'
 import readline from 'readline'
+import { todo } from './todo.js'
 
 console.log('Todo list\n')
 

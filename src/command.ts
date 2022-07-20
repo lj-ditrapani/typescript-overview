@@ -1,6 +1,6 @@
 import { ColoredString, Output } from './output.js'
 import { Continue, Result, exit } from './result.js'
-import { Item, toOutput } from './todo.js'
+import { Item, toOutput } from './item.js'
 
 const error = (text: string): Output => new ColoredString('red', text).asOutput()
 

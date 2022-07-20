@@ -1,4 +1,4 @@
-import type { Item } from './todo.js'
+import type { Item } from './item.js'
 import type { Output } from './output.js'
 
 class Exit {
