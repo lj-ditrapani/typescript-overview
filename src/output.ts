@@ -1,11 +1,15 @@
 type Color = 'red' | 'green' | 'yellow' | 'blue'
 
-class ColoredString {
-  public constructor(public readonly str: string, public readonly color: Color) {}
+export class ColoredString {
+  public constructor(public readonly color: Color, public readonly str: string) {}
 
   show(): string {
     const code = this.color2Code()
     return `\u001B[${code}m${this.str}\u001B[0m`
+  }
+
+  asOutput(): Output {
+    return [[this]]
   }
 
   private color2Code(): number {
@@ -23,5 +27,11 @@ class ColoredString {
 }
 
 type Text = string | ColoredString
-type Line = Text[]
-type Output = Line[]
+export type Line = Text[]
+export type Output = Line[]
+
+const showLine = (line: Line): string =>
+  line.map((text) => (typeof text === 'string' ? text : text.show())).join(' ')
+
+export const display = (output: Output) =>
+  output.forEach((line) => console.log(showLine(line)))

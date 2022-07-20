@@ -1,7 +1,14 @@
+import { ColoredString, Line, Output } from './output.js'
 import { PrintError, PrintList, Result, exit, printHelp } from './result.js'
 
 export class Item {
   constructor(public description: string, public state: 'todo' | 'done') {}
+
+  toLine(index: number): Line {
+    return this.state === 'todo'
+      ? [`${index + 1}`, new ColoredString('green', this.description)]
+      : [`${index + 1}`, new ColoredString('blue', this.description), '(done)']
+  }
 
   toString(
     index: number,
@@ -13,6 +20,9 @@ export class Item {
       : `${index + 1} ${grey(this.description)} (done)`
   }
 }
+
+export const toOutput = (items: Item[]): Output =>
+  items.map((item, index) => item.toLine(index))
 
 export class Todo {
   private readonly list: Item[] = []
