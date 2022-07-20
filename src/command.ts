@@ -28,8 +28,12 @@ export const next = (
 
 const error = (text: string): Output => new ColoredString('red', text).asOutput()
 
-class HelpCommand {
-  public readonly output: Output = new ColoredString(
+export interface Command {
+  process(items: Item[]): Result
+}
+
+export const helpCommand: Command = (() => {
+  const output: Output = new ColoredString(
     'yellow',
     `
       Available commands:
@@ -39,27 +43,25 @@ class HelpCommand {
       done <todo item number>           Marks the item as done
       quit                              Exit the program`,
   ).asOutput()
-
-  process(items: Item[]): Result {
-    return new Continue(this.output, items)
+  return {
+    process(items: Item[]): Result {
+      return new Continue(output, items)
+    },
   }
-}
+})()
 
-export const helpCommand = new HelpCommand()
-
-class ListCommand {
-  public readonly emptyListHint: Output = new ColoredString(
+export const listCommand: Command = (() => {
+  const emptyListHint: Output = new ColoredString(
     'yellow',
     'List is empty.  Try adding some items',
   ).asOutput()
-
-  process(items: Item[]): Result {
-    const output = items.length == 0 ? this.emptyListHint : toOutput(items)
-    return new Continue(output, items)
+  return {
+    process(items: Item[]): Result {
+      const output = items.length == 0 ? emptyListHint : toOutput(items)
+      return new Continue(output, items)
+    },
   }
-}
-
-export const listCommand = new ListCommand()
+})()
 
 export class AddCommand {
   constructor(private readonly arg: string) {}
@@ -84,22 +86,23 @@ export class DoneCommand {
   }
 }
 
-class QuitCommand {
+export const quitCommand: Command = {
   process(_items: Item[]): Result {
     return exit
-  }
+  },
 }
 
-export const quitCommand = new QuitCommand()
-
-export class UnexpectedArgCommand {
-  constructor(private readonly commandName: string) {}
+export class ErrorCommand {
+  constructor(private readonly message: string) {}
 
   process(items: Item[]): Result {
-    const output = error(`${this.commandName} command does not take any arguments`)
+    const output = error(this.message)
     return new Continue(output, items)
   }
 }
+
+export const unexpectedArgCommand: (cn: string) => Command = (commandName: string) =>
+  new ErrorCommand(`${commandName} command does not take any arguments`)
 
 export class MissingArgCommand {
   constructor(private readonly commandName: string) {}
@@ -120,13 +123,3 @@ class UnknownCommand {
 }
 
 export const unknownCommand = new UnknownCommand()
-
-export type Command =
-  | HelpCommand
-  | ListCommand
-  | AddCommand
-  | DoneCommand
-  | QuitCommand
-  | UnexpectedArgCommand
-  | MissingArgCommand
-  | UnknownCommand
