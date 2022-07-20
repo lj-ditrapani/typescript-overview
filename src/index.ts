@@ -2,7 +2,7 @@ import { Continue, next } from './result.js'
 import type { Item } from './item.js'
 import { display } from './output.js'
 import readline from 'readline'
-import { todo } from './todo.js'
+import { todoLogic } from './todo.js'
 
 console.log('Todo list\n')
 
@@ -23,7 +23,7 @@ const stop = () => {
 
 const loop = (items: Item[]) => {
   rl.question('Enter a command. Enter help to list available commands: ', (input) => {
-    const result = todo(items, input)
+    const result = todoLogic(items, input)
     next(result, go, stop)
   })
 }

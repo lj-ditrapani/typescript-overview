@@ -12,7 +12,8 @@ import {
 import type { Item } from './item.js'
 import type { Result } from './result.js'
 
-export const todo = (items: Item[], input: string): Result => parse(input).process(items)
+export const todoLogic = (items: Item[], input: string): Result =>
+  parse(input).process(items)
 
 const parse = (input: string): Command => {
   const trimmed = input.trim()
