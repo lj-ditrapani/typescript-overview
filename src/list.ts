@@ -3,8 +3,7 @@ class NilClass {
 
   readonly isEmpty = (): boolean => true
 
-  readonly reduce = <B>(zero: B, f: (acc: B, item: never) => B): B =>
-    reduce(this, zero, f)
+  readonly reduce = <B>(zero: B, _f: (acc: B, item: never) => B): B => zero
 
   readonly reverse = (): List<never> => this
 
