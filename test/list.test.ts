@@ -27,9 +27,10 @@ const checkList = (list: List<number>): void => {
 }
 
 describe('List', () => {
-  it('is a list', () => {
+  const list: List<number> = new Cons(1, new Cons(2, new Cons(3, nil)))
+
+  xit('is a list', () => {
     // This test only exists to show how to match on an ADT
-    const list: List<number> = new Cons(1, new Cons(2, nil))
 
     // This is not a good way to assert the structure of the list,
     // but it illustrates exhaustive ADT matching
@@ -39,5 +40,45 @@ describe('List', () => {
     expect(list).toStrictEqual(new Cons(1, new Cons(2, nil)))
     expect(list).not.toStrictEqual(new Cons(1, new Cons(3, nil)))
     expect(list).not.toStrictEqual(new Cons(1, nil))
+  })
+
+  describe('isEmpty', () => {
+    it("when the list is nil, returns true", () => {
+      expect(nil.isEmpty()).toBe(true)
+    })
+
+    it("when the list is a Cons, returns false", () => {
+      expect(new Cons(1, nil).isEmpty()).toBe(false)
+    })
+  })
+
+  describe('reverse', () => {
+    it("when the list is nil, returns nil", () => {
+      expect(nil.reverse()).toBe(nil)
+    })
+
+    it("returns the reverse of the list", () => {
+      expect(list.reverse()).toStrictEqual(new Cons(3, new Cons(2, new Cons(1, nil))))
+    })
+  })
+
+  describe('size', () => {
+    it("when the list is nil, returns 0", () => {
+      expect(nil.size()).toBe(0)
+    })
+
+    it("returns the number of elements in the list", () => {
+      expect(list.size()).toBe(3)
+    })
+  })
+
+  describe('toString', () => {
+    it("when the list is nil, returns List( )", () => {
+      expect(nil.toString()).toBe('List( )')
+    })
+
+    it("returns a string representatino of the list", () => {
+      expect(list.toString()).toBe('List( 1 2 3 )')
+    })
   })
 })

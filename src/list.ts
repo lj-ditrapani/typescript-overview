@@ -33,7 +33,7 @@ export class Cons<A> {
 
   readonly size = (): number => this.reduce(0, (acc, _unused) => acc + 1)
 
-  readonly toString = (): string => this.reduce('List( ', (acc, item) => `${acc}${item} `)
+  readonly toString = (): string => this.reduce('List( ', (acc, item) => `${acc}${item} `) + ')'
 }
 
 const reduce = <A, B>(list: List<A>, zero: B, f: (acc: B, item: A) => B): B => {
