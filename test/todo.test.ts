@@ -5,9 +5,9 @@ import { Item } from '../src/item.js'
 import { todoLogic } from '../src/todo.js'
 
 describe('todo', () => {
-  const item1 = new Item('wash car', 'todo')
-  const item2 = new Item('program', 'done')
-  const list = [item1, item2]
+  const item1 = () => new Item('wash car', 'todo')
+  const item2 = () => new Item('program', 'done')
+  const list = () => [item1(), item2()]
 
   describe('on help command', () => {
     it('returns the help text as output', () => {
@@ -21,7 +21,7 @@ describe('todo', () => {
     })
 
     it('when the list is not empty, returns the list as output', () => {
-      expect(todoLogic(list, 'list')).toEqual(listCommand.process(list))
+      expect(todoLogic(list(), 'list')).toEqual(listCommand.process(list()))
     })
   })
 
@@ -35,7 +35,7 @@ describe('todo', () => {
     it('returns output with new item added', () => {
       const result = new Continue(
         [['1', new ColoredString('green', 'wash car')]],
-        [item1],
+        [item1()],
       )
       expect(todoLogic([], 'add wash car')).toEqual(result)
     })
@@ -44,13 +44,13 @@ describe('todo', () => {
   describe('on done command', () => {
     it('returns output with target item marked as done', () => {
       const newList: Item[] = [new Item('wash car', 'done')]
-      newList.push(item2)
+      newList.push(item2())
       const output = [
         ['1', new ColoredString('blue', 'wash car'), '(done)'],
         ['2', new ColoredString('blue', 'program'), '(done)'],
       ]
       const result = new Continue(output, newList)
-      expect(todoLogic(list, 'done 1')).toEqual(result)
+      expect(todoLogic(list(), 'done 1')).toEqual(result)
     })
   })
 
