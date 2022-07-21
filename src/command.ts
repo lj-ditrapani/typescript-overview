@@ -68,7 +68,7 @@ export const quitCommand: Command = {
   },
 }
 
-export class ErrorCommand {
+class ErrorCommand {
   constructor(private readonly message: string) {}
 
   process(items: Item[]): Result {

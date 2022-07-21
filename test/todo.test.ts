@@ -1,5 +1,11 @@
 import { Continue, exit } from '../src/result.js'
-import { helpCommand, listCommand, unknownCommand } from '../src/command.js'
+import {
+  helpCommand,
+  listCommand,
+  missingArgCommand,
+  unexpectedArgCommand,
+  unknownCommand,
+} from '../src/command.js'
 import { ColoredString } from '../src/output.js'
 import { Item } from '../src/item.js'
 import { todoLogic } from '../src/todo.js'
@@ -13,6 +19,10 @@ describe('todo', () => {
     it('returns the help text as output', () => {
       expect(todoLogic([], 'help')).toEqual(helpCommand.process([]))
     })
+
+    it('when provided with an arg, returns the unexpected arg error', () => {
+      expect(todoLogic([], 'help 1')).toEqual(unexpectedArgCommand('help').process([]))
+    })
   })
 
   describe('on list command', () => {
@@ -23,11 +33,19 @@ describe('todo', () => {
     it('when the list is not empty, returns the list as output', () => {
       expect(todoLogic(list(), 'list')).toEqual(listCommand.process(list()))
     })
+
+    it('when provided with an arg, returns the unexpected arg error', () => {
+      expect(todoLogic([], 'list 1')).toEqual(unexpectedArgCommand('list').process([]))
+    })
   })
 
   describe('on quit command', () => {
     it('returns exit', () => {
       expect(todoLogic([], 'quit')).toEqual(exit)
+    })
+
+    it('when provided with an arg, returns the unexpected arg error', () => {
+      expect(todoLogic([], 'quit 1')).toEqual(unexpectedArgCommand('quit').process([]))
     })
   })
 
@@ -38,6 +56,10 @@ describe('todo', () => {
         [item1()],
       )
       expect(todoLogic([], 'add wash car')).toEqual(result)
+    })
+
+    it('when missing the arg, returns the missing arg error', () => {
+      expect(todoLogic([], 'add')).toEqual(missingArgCommand('add').process([]))
     })
   })
 
@@ -51,6 +73,22 @@ describe('todo', () => {
       ]
       const result = new Continue(output, newList)
       expect(todoLogic(list(), 'done 1')).toEqual(result)
+    })
+
+    it('when index is out of bounds, returns an error', () => {
+      const errorMsg = 'Done command must have a valid item index'
+      const result = new Continue([[new ColoredString('red', errorMsg)]], [])
+      expect(todoLogic([], 'done 1')).toEqual(result)
+    })
+
+    it('when index is not a number, returns an error', () => {
+      const errorMsg = 'Done command must have a valid item index'
+      const result = new Continue([[new ColoredString('red', errorMsg)]], [])
+      expect(todoLogic([], 'done cat')).toEqual(result)
+    })
+
+    it('when missing the arg, returns the missing arg error', () => {
+      expect(todoLogic([], 'done')).toEqual(missingArgCommand('done').process([]))
     })
   })
 
