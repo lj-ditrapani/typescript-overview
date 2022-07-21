@@ -1,10 +1,13 @@
-import { helpCommand, listCommand } from '../src/command.js'
+import { Continue, exit } from '../src/result.js'
+import { helpCommand, listCommand, unknownCommand } from '../src/command.js'
+import { ColoredString } from '../src/output.js'
 import { Item } from '../src/item.js'
-import { exit } from '../src/result.js'
 import { todoLogic } from '../src/todo.js'
 
 describe('todo', () => {
-  const list = [new Item('was car', 'todo'), new Item('program', 'done')]
+  const item1 = new Item('wash car', 'todo')
+  const item2 = new Item('program', 'done')
+  const list = [item1, item2]
 
   describe('on help command', () => {
     it('returns the help text as output', () => {
@@ -25,6 +28,35 @@ describe('todo', () => {
   describe('on quit command', () => {
     it('returns exit', () => {
       expect(todoLogic([], 'quit')).toEqual(exit)
+    })
+  })
+
+  describe('on add command', () => {
+    it('returns output with new item added', () => {
+      const result = new Continue(
+        [['1', new ColoredString('green', 'wash car')]],
+        [item1],
+      )
+      expect(todoLogic([], 'add wash car')).toEqual(result)
+    })
+  })
+
+  describe('on done command', () => {
+    it('returns output with target item marked as done', () => {
+      const newList: Item[] = [new Item('wash car', 'done')]
+      newList.push(item2)
+      const output = [
+        ['1', new ColoredString('blue', 'wash car'), '(done)'],
+        ['2', new ColoredString('blue', 'program'), '(done)'],
+      ]
+      const result = new Continue(output, newList)
+      expect(todoLogic(list, 'done 1')).toEqual(result)
+    })
+  })
+
+  describe('on an unknown command', () => {
+    it('returns unknown command error', () => {
+      expect(todoLogic([], 'unknown')).toEqual(unknownCommand.process([]))
     })
   })
 })
