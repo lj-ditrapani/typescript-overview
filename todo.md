@@ -8,3 +8,5 @@
 - bigger todo unit test?
 - Update README!!!  Need to add updated teaching instructions.
 - should have proper dev section.
+- create version1 branch off master
+- rename scala-port to main
