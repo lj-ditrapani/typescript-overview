@@ -12,8 +12,12 @@ import {
 import type { Item } from './item.js'
 import type { Result } from './result.js'
 
-export const todoLogic = (items: Item[], input: string): Result =>
-  parse(input).process(items)
+export class Todo {
+  private items: Item[] = []
+  dispatch(input: string): Result {
+    return parse(input).process(this.items)
+  }
+}
 
 const parse = (input: string): Command => {
   const trimmed = input.trim()

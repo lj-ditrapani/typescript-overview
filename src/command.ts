@@ -20,8 +20,8 @@ export const helpCommand: Command = (() => {
       quit                              Exit the program`,
   ).asOutput()
   return {
-    process(items: Item[]): Result {
-      return new Continue(output, items)
+    process(_items: Item[]): Result {
+      return new Continue(output)
     },
   }
 })()
@@ -34,7 +34,7 @@ export const listCommand: Command = (() => {
   return {
     process(items: Item[]): Result {
       const output = items.length == 0 ? emptyListHint : toOutput(items)
-      return new Continue(output, items)
+      return new Continue(output)
     },
   }
 })()
@@ -43,7 +43,7 @@ export class AddCommand {
   constructor(private readonly arg: string) {}
   process(items: Item[]): Result {
     items.push(new Item(this.arg, 'todo'))
-    return new Continue(toOutput(items), items)
+    return new Continue(toOutput(items))
   }
 }
 
@@ -54,10 +54,10 @@ export class DoneCommand {
     const item = items[index - 1]
     if (item === undefined) {
       const output = error('Done command must have a valid item index')
-      return new Continue(output, items)
+      return new Continue(output)
     } else {
       item.state = 'done'
-      return new Continue(toOutput(items), items)
+      return new Continue(toOutput(items))
     }
   }
 }
@@ -71,9 +71,9 @@ export const quitCommand: Command = {
 class ErrorCommand {
   constructor(private readonly message: string) {}
 
-  process(items: Item[]): Result {
+  process(_items: Item[]): Result {
     const output = error(this.message)
-    return new Continue(output, items)
+    return new Continue(output)
   }
 }
 

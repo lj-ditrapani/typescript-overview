@@ -1,5 +1,5 @@
-import type { Item } from './item.js'
 import type { Output } from './output.js'
+import type { Todo } from './todo.js'
 
 class Exit {
   kind: 'exit' = 'exit'
@@ -7,7 +7,7 @@ class Exit {
 
 export class Continue {
   kind: 'continue' = 'continue'
-  constructor(public readonly ouptput: Output, public readonly items: Item[]) {}
+  constructor(public readonly ouptput: Output) {}
 }
 
 export const exit = new Exit()
@@ -15,12 +15,13 @@ export const exit = new Exit()
 export type Result = Exit | Continue
 
 export const next = (
+  todo: Todo,
   result: Result,
-  go: (c: Continue) => void,
+  go: (c: Continue, todo: Todo) => void,
   stop: () => void,
 ): void => {
   if (result.kind === 'continue') {
-    go(result)
+    go(result, todo)
   } else {
     stop()
   }
