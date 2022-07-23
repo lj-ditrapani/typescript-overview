@@ -23,18 +23,10 @@ Notes on src
 - union types: A list is a Cons or a Nil
 - readonly, const
 - module exports
-
-Notes on tests
-
+- structural vs nominal typing
 - smart casts in switch
   - cannot access head or tail of list until type is proven to be cons
-- exhaustiveness checking in switch
-  - never type
-  - thrown exception is of type never
-- return value of checkCons
-- This is a bad way to write tests.  Generally avoid logic in test
-  code.  This was done just to illustrate smart casts &
-  exhaustiveness checking.
+  - exhaustive
 
 
 Todo app example
@@ -43,45 +35,47 @@ Todo app example
 Files
 
 - src
-    - `index.ts`: main loop
-    - `result.ts`: Result effects
-    - `todo.ts`: core logic
+    - `index.ts`: main loop (REPL)
+    - `item.ts` : a single todo item
+    - `output.ts` : structure of output to be displayed & ColoredString
+    - `result.ts`: return type of todo.dispatch()
+    - `todo.ts`: Todo class with core logic (todo.dispatch())
 - test
     - `test/todo.test.ts`
+    - `test/result.test.ts`
+    - `test/output.test.ts`
 
 Notes
 
 - run the app with `npm start`
 - This is a `read, eval, print loop` (REPL) program
+
 - Result type
-    - Another ADT
-    - kind & display()
     - A Class defines a type and a value (constructor function)
-    - PrintHelpClass, NoopClass & ExitClass constructors are private
 - Todo
     - Todo has a list of items
     - Item has a description and a state
     - dispatch returns Result
     - All cases of switch return a Result
     - add & done return a Result
-- index.js
+- index.ts
     - node\_module import vs local (relative) import
-    - no stack issuse because recursion is in callback
+    - no stack issues because recursion is in callback
     - main loop of
         - input prompt
         - todo.dispatch()
-        - result.display()
+        - `dsplay(result.toOutput())`
         - repeat or quit
 - tests
-    - All tests just call dispatch and assert on result
+    - All todo tests just call dispatch and assert on result
 - Design for testability
     - Good: move IO out of core logic
     - Bad: mutation
     - Usually have to rely on dependency injection
       (think function parameters, not DI frameworks) when things are more complex
-    - Very little logic in index.ts
-- Todo.dispatch returns Result effect
-    - does not perform IO, only describes
+    - No branching logic in index.ts
+- Todo.dispatch returns Result
+    - does not perform IO, only describes it
 
 
 Review package.json
