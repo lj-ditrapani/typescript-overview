@@ -12,7 +12,8 @@ import {
 } from './result.js'
 
 export class Todo {
-  private items: Item[] = []
+  private readonly items: Item[] = []
+
   dispatch(input: string): Result {
     const trimmed = input.trim()
     const index = trimmed.search(/\s/)
