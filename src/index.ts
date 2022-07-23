@@ -1,8 +1,7 @@
-import { Continue, next } from './result.js'
-import type { Item } from './item.js'
+import { next } from './result.js'
 import { display } from './output.js'
 import readline from 'readline'
-import { todoLogic } from './todo.js'
+import { Todo } from './todo.js'
 
 console.log('Todo list\n')
 
@@ -11,21 +10,16 @@ const rl = readline.createInterface({
   output: process.stdout,
 })
 
-const go = (c: Continue) => {
-  display(c.ouptput)
-  loop(c.items)
-}
-
 const stop = () => {
-  console.log('bye!')
   rl.close()
 }
 
-const loop = (items: Item[]) => {
+const loop = (todo: Todo) => {
   rl.question('Enter a command. Enter help to list available commands: ', (input) => {
-    const result = todoLogic(items, input)
-    next(result, go, stop)
+    const result = todo.dispatch(input)
+    display(result.toOuput())
+    next(todo, result, loop, stop)
   })
 }
 
-loop([])
+loop(new Todo())

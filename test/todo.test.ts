@@ -1,65 +1,85 @@
-import { Continue, exit } from '../src/result.js'
 import {
-  helpCommand,
-  listCommand,
-  missingArgCommand,
-  unexpectedArgCommand,
-  unknownCommand,
-} from '../src/command.js'
-import { ColoredString } from '../src/output.js'
+  doneIndexError,
+  emptyListHint,
+  exit,
+  help,
+  ListResult,
+  missingArg,
+  unexpectedArg,
+  unknown,
+} from '../src/result.js'
 import { Item } from '../src/item.js'
-import { todoLogic } from '../src/todo.js'
+import { Todo } from '../src/todo.js'
 
 describe('todo', () => {
   const item1 = () => new Item('wash car', 'todo')
   const item2 = () => new Item('program', 'done')
   const list = () => [item1(), item2()]
+  const seededTodo = () => {
+    const todo = new Todo()
+    todo.dispatch('add wash car')
+    todo.dispatch('add program')
+    todo.dispatch('done 2')
+    return todo
+  }
+
+  describe('command parsing', () => {
+    it('trims leading and trailing white space around the command and arg', () => {
+      expect(new Todo().dispatch('\t  help\t \t')).toEqual(help)
+      expect(new Todo().dispatch(' \t add\t\twash car  \t')).toEqual(
+        new ListResult([item1()]),
+      )
+      const item = new Item('wash\t\tcar', 'todo')
+      expect(new Todo().dispatch('\t\tadd\t\twash\t\tcar\t\t')).toEqual(
+        new ListResult([item]),
+      )
+    })
+  })
 
   describe('on help command', () => {
     it('returns the help text as output', () => {
-      expect(todoLogic([], 'help')).toEqual(helpCommand.process([]))
+      expect(new Todo().dispatch('help')).toEqual(help)
     })
 
     it('when provided with an arg, returns the unexpected arg error', () => {
-      expect(todoLogic([], 'help 1')).toEqual(unexpectedArgCommand('help').process([]))
+      expect(new Todo().dispatch('help 1')).toEqual(unexpectedArg('help'))
     })
   })
 
   describe('on list command', () => {
     it('when the list is empty, returns a hint as output', () => {
-      expect(todoLogic([], 'list')).toEqual(listCommand.process([]))
+      expect(new Todo().dispatch('list')).toEqual(emptyListHint)
     })
 
     it('when the list is not empty, returns the list as output', () => {
-      expect(todoLogic(list(), 'list')).toEqual(listCommand.process(list()))
+      expect(seededTodo().dispatch('list')).toEqual(new ListResult(list()))
     })
 
     it('when provided with an arg, returns the unexpected arg error', () => {
-      expect(todoLogic([], 'list 1')).toEqual(unexpectedArgCommand('list').process([]))
+      expect(new Todo().dispatch('list 1')).toEqual(unexpectedArg('list'))
     })
   })
 
   describe('on quit command', () => {
     it('returns exit', () => {
-      expect(todoLogic([], 'quit')).toEqual(exit)
+      expect(new Todo().dispatch('quit')).toEqual(exit)
     })
 
     it('when provided with an arg, returns the unexpected arg error', () => {
-      expect(todoLogic([], 'quit 1')).toEqual(unexpectedArgCommand('quit').process([]))
+      expect(new Todo().dispatch('quit 1')).toEqual(unexpectedArg('quit'))
     })
   })
 
   describe('on add command', () => {
     it('returns output with new item added', () => {
-      const result = new Continue(
-        [['1', new ColoredString('green', 'wash car')]],
-        [item1()],
-      )
-      expect(todoLogic([], 'add wash car')).toEqual(result)
+      expect(new Todo().dispatch('add wash car')).toEqual(new ListResult([item1()]))
+      const newList = list()
+      newList.push(item1())
+      expect(seededTodo().dispatch('add wash car')).toEqual(new ListResult(newList))
     })
 
     it('when missing the arg, returns the missing arg error', () => {
-      expect(todoLogic([], 'add')).toEqual(missingArgCommand('add').process([]))
+      expect(new Todo().dispatch('add')).toEqual(missingArg('add'))
     })
   })
 
@@ -67,34 +87,32 @@ describe('todo', () => {
     it('returns output with target item marked as done', () => {
       const newList: Item[] = [new Item('wash car', 'done')]
       newList.push(item2())
-      const output = [
-        ['1', new ColoredString('blue', 'wash car'), '(done)'],
-        ['2', new ColoredString('blue', 'program'), '(done)'],
-      ]
-      const result = new Continue(output, newList)
-      expect(todoLogic(list(), 'done 1')).toEqual(result)
+      const result = new ListResult(newList)
+      expect(seededTodo().dispatch('done 1')).toEqual(result)
     })
 
     it('when index is out of bounds, returns an error', () => {
-      const errorMsg = 'Done command must have a valid item index'
-      const result = new Continue([[new ColoredString('red', errorMsg)]], [])
-      expect(todoLogic([], 'done 1')).toEqual(result)
+      const todo = seededTodo()
+      expect(todo.dispatch('done 0')).toEqual(doneIndexError)
+      expect(todo.dispatch('done 3')).toEqual(doneIndexError)
     })
 
     it('when index is not a number, returns an error', () => {
-      const errorMsg = 'Done command must have a valid item index'
-      const result = new Continue([[new ColoredString('red', errorMsg)]], [])
-      expect(todoLogic([], 'done cat')).toEqual(result)
+      expect(seededTodo().dispatch('done cat')).toEqual(doneIndexError)
     })
 
     it('when missing the arg, returns the missing arg error', () => {
-      expect(todoLogic([], 'done')).toEqual(missingArgCommand('done').process([]))
+      expect(new Todo().dispatch('done')).toEqual(missingArg('done'))
     })
   })
 
   describe('on an unknown command', () => {
-    it('returns unknown command error', () => {
-      expect(todoLogic([], 'unknown')).toEqual(unknownCommand.process([]))
+    it('with no arg, returns unknown command error', () => {
+      expect(new Todo().dispatch('unknown')).toEqual(unknown)
+    })
+
+    it('with an arg, returns unknown command error', () => {
+      expect(new Todo().dispatch('unknown with arg')).toEqual(unknown)
     })
   })
 })
