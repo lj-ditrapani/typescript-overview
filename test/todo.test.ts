@@ -114,5 +114,13 @@ describe('todo', () => {
     it('with an arg, returns unknown command error', () => {
       expect(new Todo().dispatch('unknown with arg')).toEqual(unknown)
     })
+
+    describe('when there is no input, or the input is only whitespace', () => {
+      it('returns an unknown command error', () => {
+        const todo = new Todo()
+        expect(todo.dispatch('')).toBe(unknown)
+        expect(todo.dispatch('\t\t \t')).toBe(unknown)
+      })
+    })
   })
 })
