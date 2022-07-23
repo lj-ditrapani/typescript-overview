@@ -1,13 +1,9 @@
-- Convert todoLogic to Todo class?
-    - I kinda liked the multi-step Todo tests where an object state was built up and then used the list command to verify state.  It felt very natural to think about.  I kind of think passing items around is a little cumbersome.  Especially since we are mutating items...
-- Maybe get rid of commands and go back to Result subtypes (Exit,List(add, done, list),Help,Error(unknown, missing, unexpect, doneindex))
-    - Right now, tests expect Output, and so we convert commands to output to do the match.
-    - would it be better to have easier to test Results and Result have a toOutput method that loop calls?
+- fix unit tests
+- bigger todo unit test?
 - result.next unit test
 - ColoredString unit tests
 - display unit tests?
 - command tests?
 - item tests?
-- bigger todo unit test?
 - Update README!!!  Need to add updated teaching instructions.
 - should have proper dev section.

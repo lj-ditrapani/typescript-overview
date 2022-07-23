@@ -1,57 +1,72 @@
+import { Item } from './item.js'
 import {
-  AddCommand,
-  Command,
-  DoneCommand,
-  helpCommand,
-  listCommand,
-  missingArgCommand,
-  quitCommand,
-  unexpectedArgCommand,
-  unknownCommand,
-} from './command.js'
-import type { Item } from './item.js'
-import type { Result } from './result.js'
+  doneIndexError,
+  emptyListHint,
+  exit,
+  help,
+  ListResult,
+  missingArg,
+  Result,
+  unexpectedArg,
+  unknown,
+} from './result.js'
 
 export class Todo {
   private items: Item[] = []
   dispatch(input: string): Result {
-    return parse(input).process(this.items)
-  }
-}
-
-const parse = (input: string): Command => {
-  const trimmed = input.trim()
-  const index = trimmed.search(/\s/)
-  const [first, second] =
-    index === -1
-      ? [trimmed]
-      : [trimmed.slice(0, index).trim(), trimmed.slice(index, input.length).trim()]
-  if (second === undefined) {
-    switch (first) {
-      case 'help':
-        return helpCommand
-      case 'list':
-        return listCommand
-      case 'quit':
-        return quitCommand
-      case 'add':
-      case 'done':
-        return missingArgCommand(first)
-      default:
-        return unknownCommand
+    const trimmed = input.trim()
+    const index = trimmed.search(/\s/)
+    const [first, second] =
+      index === -1
+        ? [trimmed]
+        : [trimmed.slice(0, index).trim(), trimmed.slice(index, input.length).trim()]
+    if (second === undefined) {
+      switch (first) {
+        case 'help':
+          return help
+        case 'list':
+          return this.processList()
+        case 'quit':
+          return exit
+        case 'add':
+        case 'done':
+          return missingArg(first)
+        default:
+          return unknown
+      }
+    } else {
+      switch (first) {
+        case 'add':
+          return this.processAdd(second)
+        case 'done':
+          return this.processDone(second)
+        case 'help':
+        case 'list':
+        case 'quit':
+          return unexpectedArg(first)
+        default:
+          return unknown
+      }
     }
-  } else {
-    switch (first) {
-      case 'add':
-        return new AddCommand(second)
-      case 'done':
-        return new DoneCommand(second)
-      case 'help':
-      case 'list':
-      case 'quit':
-        return unexpectedArgCommand(first)
-      default:
-        return unknownCommand
+  }
+
+  private processList(): Result {
+    return this.items.length == 0 ? emptyListHint : new ListResult(this.items)
+  }
+
+  private processAdd(arg: string): Result {
+    this.items.push(new Item(arg, 'todo'))
+    return new ListResult(this.items)
+  }
+
+  private processDone(arg: string): Result {
+    const index = parseInt(arg, 10)
+    const item = this.items[index - 1]
+    if (item === undefined) {
+      return doneIndexError
+    } else {
+      item.state = 'done'
+      return new ListResult(this.items)
     }
   }
 }
