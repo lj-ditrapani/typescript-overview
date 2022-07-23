@@ -1,7 +1,2 @@
-- result.next unit test
-- ColoredString unit tests
-- display unit tests?
-- command tests?
-- item tests?
 - Update README!!!  Need to add updated teaching instructions.
 - should have proper dev section.
