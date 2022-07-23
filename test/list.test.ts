@@ -1,44 +1,15 @@
-import { Cons, List, nil } from '../src/list'
-
-const checkCons = (list: List<number>, n: number): List<number> => {
-  switch (list.kind) {
-    case 'cons':
-      expect(list.head).toBe(n)
-      return list.tail
-    case 'nil':
-      throw new Error('Expected Cons, found nil')
-  }
-}
-
-const checkNil = (list: List<number>): null => {
-  switch (list.kind) {
-    case 'cons':
-      throw new Error('Expected nil, found Cons')
-    case 'nil':
-      expect(list).toBe(nil)
-      return null
-  }
-}
-
-const checkList = (list: List<number>): void => {
-  const list2 = checkCons(list, 1)
-  const list3 = checkCons(list2, 2)
-  const list4 = checkCons(list3, 3)
-  checkNil(list4)
-}
+import { Cons, List, mkList, nil } from '../src/list'
 
 describe('List', () => {
-  const list: List<number> = new Cons(1, new Cons(2, new Cons(3, nil)))
+  const list: List<number> = mkList(1, 2, 3)
 
-  it('is a list', () => {
-    // This test only exists to show how to match on an ADT
-
-    // This is not a good way to assert the structure of the list,
-    // but it illustrates exhaustive ADT matching
-    checkList(list)
-
-    // These assertions do the same as above in a much safer way
-    expect(list.toString()).toEqual('List( 1 2 3 )')
+  describe('mkList', () => {
+    it('List factory function to make lists easier', () => {
+      expect(list).toEqual(new Cons(1, new Cons(2, new Cons(3, nil))))
+      expect(mkList('1', '2', '3')).toEqual(
+        new Cons('1', new Cons('2', new Cons('3', nil))),
+      )
+    })
   })
 
   describe('isEmpty', () => {
@@ -47,7 +18,7 @@ describe('List', () => {
     })
 
     it('when the list is a Cons, returns false', () => {
-      expect(new Cons(1, nil).isEmpty()).toBe(false)
+      expect(list.isEmpty()).toBe(false)
     })
   })
 
@@ -72,7 +43,7 @@ describe('List', () => {
     })
 
     it('returns the reverse of the list', () => {
-      expect(list.reverse().toString()).toEqual('List( 3 2 1 )')
+      expect(list.reverse()).toEqual(mkList(3, 2, 1))
     })
   })
 
@@ -82,7 +53,30 @@ describe('List', () => {
     })
 
     it('applies f to each element and returns the new list', () => {
-      expect(list.map((a) => a * 2).toString()).toEqual('List( 2 4 6 )')
+      expect(list.map((a) => a * 2)).toEqual(mkList(2, 4, 6))
+    })
+  })
+
+  describe('flatMap', () => {
+    const strToList = (s: string): List<string> =>
+      [...s].reduce<List<string>>((acc, val) => new Cons(val, acc), nil).reverse()
+
+    it('when the list is nil, returns nil', () => {
+      expect(nil.flatMap<string>((a) => strToList(a))).toBe(nil)
+    })
+
+    it('applies f to each element and concats the lists together', () => {
+      const list1 = mkList('12', '34')
+      const list2 = mkList('1', '2', '3', '4')
+      const list3 = mkList(1, 2, 3, 4)
+      expect(list1.flatMap<string>((a) => strToList(a))).toEqual(list2)
+      expect(list1.flatMap<number>((a) => strToList(a).map(parseInt))).toEqual(list3)
+    })
+  })
+
+  describe('filter', () => {
+    it('selects elements from a list', () => {
+      expect(mkList(1, 2, 3, 4).filter((item) => item > 2)).toEqual(mkList(3, 4))
     })
   })
 
