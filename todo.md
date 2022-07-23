@@ -1,5 +1,3 @@
-- fix unit tests
-- bigger todo unit test?
 - result.next unit test
 - ColoredString unit tests
 - display unit tests?

@@ -60,6 +60,9 @@ describe('todo', () => {
   describe('on add command', () => {
     it('returns output with new item added', () => {
       expect(new Todo().dispatch('add wash car')).toEqual(new ListResult([item1()]))
+      const newList = list()
+      newList.push(item1())
+      expect(seededTodo().dispatch('add wash car')).toEqual(new ListResult(newList))
     })
 
     it('when missing the arg, returns the missing arg error', () => {
