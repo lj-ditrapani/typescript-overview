@@ -23,6 +23,19 @@ describe('todo', () => {
     return todo
   }
 
+  describe('command parsing', () => {
+    it('trims leading and trailing white space around the command and arg', () => {
+      expect(new Todo().dispatch('\t  help\t \t')).toEqual(help)
+      expect(new Todo().dispatch(' \t add\t\twash car  \t')).toEqual(
+        new ListResult([item1()]),
+      )
+      const item = new Item('wash\t\tcar', 'todo')
+      expect(new Todo().dispatch('\t\tadd\t\twash\t\tcar\t\t')).toEqual(
+        new ListResult([item]),
+      )
+    })
+  })
+
   describe('on help command', () => {
     it('returns the help text as output', () => {
       expect(new Todo().dispatch('help')).toEqual(help)
@@ -94,8 +107,12 @@ describe('todo', () => {
   })
 
   describe('on an unknown command', () => {
-    it('returns unknown command error', () => {
+    it('with no arg, returns unknown command error', () => {
       expect(new Todo().dispatch('unknown')).toEqual(unknown)
+    })
+
+    it('with an arg, returns unknown command error', () => {
+      expect(new Todo().dispatch('unknown with arg')).toEqual(unknown)
     })
   })
 })
