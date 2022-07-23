@@ -10,10 +10,6 @@ const rl = readline.createInterface({
   output: process.stdout,
 })
 
-const go = (todo: Todo) => {
-  loop(todo)
-}
-
 const stop = () => {
   rl.close()
 }
@@ -22,7 +18,7 @@ const loop = (todo: Todo) => {
   rl.question('Enter a command. Enter help to list available commands: ', (input) => {
     const result = todo.dispatch(input)
     display(result.toOuput())
-    next(todo, result, go, stop)
+    next(todo, result, loop, stop)
   })
 }
 

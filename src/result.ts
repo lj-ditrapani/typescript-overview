@@ -75,12 +75,12 @@ export const exit = new Exit('exit')
 export const next = (
   todo: Todo,
   result: Result,
-  go: (todo: Todo) => void,
+  loop: (todo: Todo) => void,
   stop: () => void,
 ): void => {
   switch (result.kind) {
     case 'continue':
-      return go(todo)
+      return loop(todo)
     case 'exit':
       return stop()
   }
