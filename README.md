@@ -89,22 +89,54 @@ Review package.json
 
 - dependencies
 - devDependencies
-- first time
-    - setup node 16.  You can use nvm to manage node versions.
-    - `npm install`
-- scripts!
-    - `npm start`
-    - `npm test`
-        - `firefox coverage/lcov-report/index.html`
-    - `npm test test/list.test.ts`
-    - `npm run lint`
-    - `npm run doc`
-    - `npm run all`
-- Update dependencies
-  `npm run ncu`
+- Go over developing section & npm scripts.
 
 
 Further reading
 ---------------
 
 [Typescript Handbook](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html).
+
+
+Developing
+----------
+
+Install node 16.  You can use nvm to manage node versions.
+
+
+### First time install ###
+
+    npm install
+
+
+### Run it ###
+
+    npm start
+
+
+### Format, lint, build, test ###
+
+    npm run all
+
+
+### Test coverage ###
+
+    # Run the tests with `npm run all` or
+    npm test
+    # This will generate the test coverage report
+    # Then open the test coverage report
+    firefox coverage/lcov-report/index.html
+
+
+### Generate documentation ###
+
+    npm run doc
+    firefox docs/index.html &
+
+
+### Update dependencies ###
+
+    npm run ncu
+
+
+Author:  Lyall Jonathan Di Trapani
