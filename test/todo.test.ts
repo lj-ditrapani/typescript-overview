@@ -123,4 +123,23 @@ describe('todo', () => {
       })
     })
   })
+
+  describe('when an error happens', () => {
+    it('the list is not modified', () => {
+      const todo = seededTodo()
+
+      // These commands all generate errors
+      todo.dispatch('unknown')
+      todo.dispatch('add')
+      todo.dispatch('done')
+      todo.dispatch('list 1')
+      todo.dispatch('help 1')
+      todo.dispatch('done cat')
+      todo.dispatch('done 0')
+      todo.dispatch('done 3')
+
+      // But list is unchanged
+      expect(todo.dispatch('list')).toEqual(new ListResult(list()))
+    })
+  })
 })
