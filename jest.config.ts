@@ -4,10 +4,10 @@ const config: Config.InitialOptions = {
   preset: 'ts-jest/presets/default-esm',
   coverageThreshold: {
     global: {
-      statements: 96,
-      branches: 95,
+      statements: 100,
+      branches: 100,
       functions: 100,
-      lines: 96,
+      lines: 100,
     },
   },
   globals: {
