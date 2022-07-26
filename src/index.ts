@@ -1,7 +1,6 @@
 import { next } from './result.js'
 import { display } from './output.js'
 import readline from 'readline'
-import util from 'util'
 import { Todo } from './todo.js'
 
 console.log('Todo list\n')
@@ -11,9 +10,10 @@ const rl = readline.createInterface({
   output: process.stdout,
 })
 
-const question = util.promisify(rl.question).bind(rl) as unknown as (
-  s: string,
-) => Promise<string>
+const question = (query: string) =>
+  new Promise<string>((resolve, _reject) =>
+    rl.question(query, answer => resolve(answer)),
+  )
 
 const stop = (): 'done' => {
   rl.close()
