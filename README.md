@@ -24,9 +24,8 @@ Notes on src
 - readonly, const
 - module exports
 - structural vs nominal typing
-- smart casts in switch
+- smart casts in reduce
   - cannot access head or tail of list until type is proven to be cons
-  - exhaustive
 
 
 Todo app example
@@ -52,6 +51,7 @@ Notes
 
 - Result type
     - A Class defines a type and a value (constructor function)
+    - next() has type narrowing & exhaustive checking
 - Todo
     - Todo has a list of items
     - Item has a description and a state
@@ -66,6 +66,8 @@ Notes
         - todo.dispatch()
         - `dsplay(result.toOutput())`
         - repeat or quit
+- output.ts
+    - switch on color in ColoredString is exhaustive
 - tests
     - All todo tests just call dispatch and assert on result
 - Design for testability

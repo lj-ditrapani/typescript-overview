@@ -2,16 +2,11 @@ class BaseList<A> {
   reduce<B>(this: List<A>, zero: B, f: (acc: B, item: A) => B): B {
     let node: List<A> = this
     let acc = zero
-    while (true) {
-      switch (node.kind) {
-        case 'cons':
-          acc = f(acc, node.head)
-          node = node.tail
-          break
-        case 'nil':
-          return acc
-      }
+    while (node.kind !== 'nil') {
+      acc = f(acc, node.head)
+      node = node.tail
     }
+    return acc
   }
 
   reverse(this: List<A>): List<A> {
