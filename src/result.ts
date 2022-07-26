@@ -72,15 +72,15 @@ export const unknown: Result = new ErrorResult(
 
 export const exit = new Exit('exit')
 
-export const next = (
+export const next = async (
   todo: Todo,
   result: Result,
-  loop: (todo: Todo) => void,
-  stop: () => void,
-): void => {
+  loop: (todo: Todo) => Promise<'done'>,
+  stop: () => 'done',
+): Promise<'done'> => {
   switch (result.kind) {
     case 'continue':
-      return loop(todo)
+      return await loop(todo)
     case 'exit':
       return stop()
   }
