@@ -80,18 +80,18 @@ Notes
     - does not perform IO, only describes it
 
 
+Main TypeScript Reference
+-------------------------
+
+[Typescript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
+
+
 Review package.json
 --------------------
 
 - dependencies
 - devDependencies
 - Go over developing section & npm scripts.
-
-
-Further reading
----------------
-
-[Typescript Handbook](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html).
 
 
 Developing
