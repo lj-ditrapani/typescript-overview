@@ -12,7 +12,7 @@ const rl = readline.createInterface({
 
 const question = (query: string) =>
   new Promise<string>((resolve, _reject) =>
-    rl.question(query, answer => resolve(answer)),
+    rl.question(query, (answer) => resolve(answer)),
   )
 
 const stop = (): 'done' => {
