@@ -97,10 +97,14 @@ Review package.json
 Developing
 ----------
 
-Install node 16.  You can use nvm to manage node versions.
-
-
 ### First time install ###
+
+Install node with [nvm](https://github.com/nvm-sh/nvm).
+
+    nvm install     # one-time install
+    nvm use         # each time you enter the project directory
+
+Install npm packages.
 
     npm install
 
