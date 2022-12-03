@@ -41,7 +41,7 @@ class BaseList<A> {
 }
 
 class Nil<A> extends BaseList<A> {
-  public readonly kind: 'nil' = 'nil'
+  public readonly kind: 'nil' = 'nil' as const
 
   isEmpty(): boolean {
     return true
@@ -51,7 +51,7 @@ class Nil<A> extends BaseList<A> {
 export const nil = new Nil<never>()
 
 export class Cons<A> extends BaseList<A> {
-  public readonly kind: 'cons' = 'cons'
+  public readonly kind: 'cons' = 'cons' as const
 
   constructor(public readonly head: A, public readonly tail: List<A>) {
     super()
