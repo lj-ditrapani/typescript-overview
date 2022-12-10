@@ -2,24 +2,17 @@ import { ColoredString, Output } from './output.js'
 import type { Todo } from './todo.js'
 import { Item, toOutput } from './item.js'
 
-export abstract class Result {
-  constructor(public readonly kind: 'exit' | 'continue') {}
-  abstract toOuput(): Output
-}
+export type Result = Readonly<{
+  kind: 'exit' | 'continue'
+  toOuput(): Output
+}>
 
-class StringResult extends Result {
-  constructor(private readonly str: ColoredString) {
-    super('continue')
-  }
+class StringResult implements Result {
+  kind = 'continue' as const
+  constructor(private readonly str: ColoredString) {}
 
   toOuput(): Output {
     return this.str.asOutput()
-  }
-}
-
-class Exit extends Result {
-  toOuput(): Output {
-    return new ColoredString('blue', 'bye!').asOutput()
   }
 }
 
@@ -42,10 +35,10 @@ export const help = new StringResult(
   ),
 )
 
-export class ListResult extends Result {
-  constructor(private readonly items: Item[]) {
-    super('continue')
-  }
+export class ListResult implements Result {
+  kind = 'continue' as const
+
+  constructor(private readonly items: Item[]) {}
 
   toOuput(): Output {
     return toOutput(this.items)
@@ -70,7 +63,12 @@ export const unknown: Result = new ErrorResult(
   'I do not understand your command.  ' + 'Enter help to display available commands.',
 )
 
-export const exit = new Exit('exit')
+export const exit: Result = {
+  kind: 'exit' as const,
+  toOuput(): Output {
+    return new ColoredString('blue', 'bye!').asOutput()
+  },
+}
 
 export const next = async (
   todo: Todo,
