@@ -6,7 +6,7 @@ import {
   help,
   ListResult,
   missingArg,
-  Result,
+  type Result,
   unexpectedArg,
   unknown,
 } from './result.js'

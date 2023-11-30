@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { Cons, List, mkList, nil } from '../src/list'
 
 describe('List', () => {

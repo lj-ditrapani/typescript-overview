@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest'
 import { Item } from '../src/item.js'
 import { ColoredString } from '../src/output.js'
 import { doneIndexError, exit, help, ListResult, next } from '../src/result.js'
@@ -32,8 +33,8 @@ describe('ListResult.toOutput()', () => {
 describe('next', () => {
   it('when result is exit, executes stop lambda', () => {
     const todo = new Todo()
-    const loop = jest.fn()
-    const stop = jest.fn()
+    const loop = vi.fn()
+    const stop = vi.fn()
     next(todo, exit, loop, stop)
     expect(stop).toHaveBeenCalled()
     expect(loop).not.toHaveBeenCalled()
@@ -41,8 +42,8 @@ describe('next', () => {
 
   it('when result is not exit, executes go lambda', () => {
     const todo = new Todo()
-    const loop = jest.fn()
-    const stop = jest.fn()
+    const loop = vi.fn()
+    const stop = vi.fn()
     next(todo, help, loop, stop)
     expect(loop).toHaveBeenCalled()
     expect(stop).not.toHaveBeenCalled()

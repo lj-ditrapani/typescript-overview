@@ -1,4 +1,4 @@
-import { ColoredString, Output } from './output.js'
+import { ColoredString, type Output } from './output.js'
 import type { Todo } from './todo.js'
 import { Item, toOutput } from './item.js'
 

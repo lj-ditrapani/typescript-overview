@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest'
 import { ColoredString, display, Output } from '../src/output'
 
 type Color = 'red' | 'green' | 'yellow' | 'blue'
@@ -34,7 +35,7 @@ describe('ColoredString.show', () => {
 
 describe('display', () => {
   it('converts the Lines to colored strings and writes them to the console', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation(() => {
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {
       /* do nothing */
     })
     const output = [['default', new ColoredString('yellow', 'help text'), 'default']]

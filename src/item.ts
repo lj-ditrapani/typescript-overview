@@ -1,7 +1,10 @@
-import { ColoredString, Line, Output } from './output.js'
+import { ColoredString, type Line, type Output } from './output.js'
 
 export class Item {
-  constructor(public description: string, public state: 'todo' | 'done') {}
+  constructor(
+    public description: string,
+    public state: 'todo' | 'done',
+  ) {}
 
   toLine(index: number): Line {
     return this.state === 'todo'

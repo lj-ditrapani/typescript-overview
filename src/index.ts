@@ -1,11 +1,11 @@
 import { next } from './result.js'
 import { display } from './output.js'
-import readline from 'readline'
+import { createInterface } from 'readline'
 import { Todo } from './todo.js'
 
 console.log('Todo list\n')
 
-const rl = readline.createInterface({
+const rl = createInterface({
   input: process.stdin,
   output: process.stdout,
 })

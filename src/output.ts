@@ -1,7 +1,10 @@
 type Color = 'red' | 'green' | 'yellow' | 'blue'
 
 export class ColoredString {
-  public constructor(public readonly color: Color, public readonly str: string) {}
+  public constructor(
+    public readonly color: Color,
+    public readonly str: string,
+  ) {}
 
   show(): string {
     const code = this.color2Code()

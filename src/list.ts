@@ -1,12 +1,15 @@
+const _reduce = <A, B>(list: List<A>, zero: B, f: (acc: B, item: A) => B): B => {
+  let node: List<A> = list
+  let acc = zero
+  while (node.kind !== 'nil') {
+    acc = f(acc, node.head)
+    node = node.tail
+  }
+  return acc
+}
 class BaseList<A> {
   reduce<B>(this: List<A>, zero: B, f: (acc: B, item: A) => B): B {
-    let node: List<A> = this
-    let acc = zero
-    while (node.kind !== 'nil') {
-      acc = f(acc, node.head)
-      node = node.tail
-    }
-    return acc
+    return _reduce(this, zero, f)
   }
 
   reverse(this: List<A>): List<A> {
@@ -53,7 +56,10 @@ export const nil = new Nil<never>()
 export class Cons<A> extends BaseList<A> {
   public readonly kind: 'cons' = 'cons' as const
 
-  constructor(public readonly head: A, public readonly tail: List<A>) {
+  constructor(
+    public readonly head: A,
+    public readonly tail: List<A>,
+  ) {
     super()
   }
 
