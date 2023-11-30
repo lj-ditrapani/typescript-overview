@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { ColoredString, display, Output } from '../src/output'
+import { ColoredString, display, type Output } from '../src/output'
 
 type Color = 'red' | 'green' | 'yellow' | 'blue'
 

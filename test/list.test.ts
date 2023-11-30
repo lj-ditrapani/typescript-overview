@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { Cons, List, mkList, nil } from '../src/list'
+import { Cons, type List, mkList, nil } from '../src/list'
 
 describe('List', () => {
   const list: List<number> = mkList(1, 2, 3)
