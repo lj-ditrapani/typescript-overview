@@ -109,9 +109,19 @@ Install npm packages.
     npm install
 
 
+### Build it ###
+
+    npx tsc
+
+
 ### Run it ###
 
     npm start
+
+
+### Build and run it ###
+
+    npm run dev
 
 
 ### Format, lint, build, test ###
@@ -125,13 +135,13 @@ Install npm packages.
     npm test
     # This will generate the test coverage report
     # Then open the test coverage report
-    firefox coverage/lcov-report/index.html
+    firefox coverage/index.html
 
 
 ### Generate documentation ###
 
     npm run doc
-    firefox docs/index.html &
+    firefox doc/index.html &
 
 
 ### Update dependencies ###
