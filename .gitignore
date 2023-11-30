@@ -4,6 +4,7 @@ npm-debug.log
 *~
 *.swp
 dist
+dist-test
 coverage
 /doc
 .vscode
