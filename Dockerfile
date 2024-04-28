@@ -1,4 +1,4 @@
-ARG nodeV=20.12.2
+ARG nodeV=22.0.0
 
 FROM node:${nodeV}-bookworm-slim as base
 WORKDIR /app
